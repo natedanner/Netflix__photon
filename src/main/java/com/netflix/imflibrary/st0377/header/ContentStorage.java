@@ -95,7 +95,7 @@ public final class ContentStorage extends InterchangeObject
      */
     public List<MXFUID> getPackageInstanceUIDs()
     {
-        List<MXFUID> packageInstanceUIDs = new ArrayList<MXFUID>();
+        List<MXFUID> packageInstanceUIDs = new ArrayList<>();
         for (InterchangeObjectBO.StrongRef strongRef : this.contentStorageBO.packages.getEntries())
         {
             packageInstanceUIDs.add(strongRef.getInstanceUID());

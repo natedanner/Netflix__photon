@@ -48,18 +48,18 @@ public final class  PartitionPack
 
     private final KLVPacket.Header header;
 
-    @MXFProperty(size=2) private final Integer major_version = null;
-    @MXFProperty(size=2) private final Integer minor_version = null;
-    @MXFProperty(size=4) private final Long KAG_size = null;
-    @MXFProperty(size=8) private final Long this_partition = null;
-    @MXFProperty(size=8) private final Long previous_partition = null;
-    @MXFProperty(size=8) private final Long footer_partition = null;
-    @MXFProperty(size=8) private final Long header_byte_count = null;
-    @MXFProperty(size=8) private final Long index_byte_count = null;
-    @MXFProperty(size=4) private final Long index_SID = null;
-    @MXFProperty(size=8) private final Long body_offset = null;
-    @MXFProperty(size=4) private final Long body_SID = null;
-    @MXFProperty(size=16) private final byte[] operational_pattern = null;
+    @MXFProperty(size=2) private final Integer majorVersion = null;
+    @MXFProperty(size=2) private final Integer minorVersion = null;
+    @MXFProperty(size=4) private final Long kagSize = null;
+    @MXFProperty(size=8) private final Long thisPartition = null;
+    @MXFProperty(size=8) private final Long previousPartition = null;
+    @MXFProperty(size=8) private final Long footerPartition = null;
+    @MXFProperty(size=8) private final Long headerByteCount = null;
+    @MXFProperty(size=8) private final Long indexByteCount = null;
+    @MXFProperty(size=4) private final Long indexSID = null;
+    @MXFProperty(size=8) private final Long bodyOffset = null;
+    @MXFProperty(size=4) private final Long bodySID = null;
+    @MXFProperty(size=16) private final byte[] operationalPattern = null;
 
     private final CompoundDataTypes.MXFCollections.MXFCollection<UL> essenceContainerBatch;
 
@@ -70,7 +70,7 @@ public final class  PartitionPack
     /**
      * An enum to represent the PartitionPackTypes which can be extended only by the PartitionPack class
      */
-    public static enum PartitionPackType {
+    public enum PartitionPackType {
         /*
         Enum corresponding to the HeaderPartitionPack, based on the KeyValue as defined in SMPTE ST-0377-1:2011
          */
@@ -152,7 +152,7 @@ public final class  PartitionPack
      */
     public byte[] getOperationalPattern()
     {
-        return Arrays.copyOf(this.operational_pattern, this.operational_pattern.length);
+        return Arrays.copyOf(this.operationalPattern, this.operationalPattern.length);
     }
 
     /**
@@ -199,52 +199,52 @@ public final class  PartitionPack
         MXFPropertyPopulator.populateField(byteProvider, this, "KAG_size");
 
         MXFPropertyPopulator.populateField(byteProvider, this, "this_partition");
-        if (this.this_partition < 0)
+        if (this.thisPartition < 0)
         {
             String errorMessage = String.format("Value of this_partition = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.this_partition, this.this_partition, Long.MAX_VALUE);
+                    this.thisPartition, this.thisPartition, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
         MXFPropertyPopulator.populateField(byteProvider, this, "previous_partition");
-        if (this.previous_partition < 0)
+        if (this.previousPartition < 0)
         {
             String errorMessage = String.format("Value of previous_partition = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.previous_partition, this.previous_partition, Long.MAX_VALUE);
+                    this.previousPartition, this.previousPartition, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
         MXFPropertyPopulator.populateField(byteProvider, this, "footer_partition");
-        if (this.footer_partition < 0)
+        if (this.footerPartition < 0)
         {
             String errorMessage = String.format("Value of footer_partition = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.footer_partition, this.footer_partition, Long.MAX_VALUE);
+                    this.footerPartition, this.footerPartition, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
         MXFPropertyPopulator.populateField(byteProvider, this, "header_byte_count");
-        if (this.header_byte_count < 0)
+        if (this.headerByteCount < 0)
         {
             String errorMessage = String.format("Value of header_byte_count = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.header_byte_count, this.header_byte_count, Long.MAX_VALUE);
+                    this.headerByteCount, this.headerByteCount, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
         MXFPropertyPopulator.populateField(byteProvider, this, "index_byte_count");
-        if (this.index_byte_count < 0)
+        if (this.indexByteCount < 0)
         {
             String errorMessage = String.format("Value of index_byte_count = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.index_byte_count, this.index_byte_count, Long.MAX_VALUE);
+                    this.indexByteCount, this.indexByteCount, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
         MXFPropertyPopulator.populateField(byteProvider, this, "index_SID");
 
         MXFPropertyPopulator.populateField(byteProvider, this, "body_offset");
-        if (this.body_offset < 0)
+        if (this.bodyOffset < 0)
         {
             String errorMessage = String.format("Value of body_offset = %d(0x%x) which is outside the supported range 0-0x%x",
-                    this.body_offset, this.body_offset, Long.MAX_VALUE);
+                    this.bodyOffset, this.bodyOffset, Long.MAX_VALUE);
             handleError(imfErrorLogger, errorMessage);
         }
 
@@ -265,7 +265,7 @@ public final class  PartitionPack
             cList.add(new UL(byteProvider.getBytes(KLVPacket.KEY_FIELD_SIZE)));
         }
 
-        this.essenceContainerBatch = new CompoundDataTypes.MXFCollections.MXFCollection<UL>(cHeader, cList, "EssenceContainerBatch");
+        this.essenceContainerBatch = new CompoundDataTypes.MXFCollections.MXFCollection<>(cHeader, cList, "EssenceContainerBatch");
 
         if (checkForSucceedingKLVFillItem)
         {
@@ -311,7 +311,7 @@ public final class  PartitionPack
      */
     public PartitionPackType getPartitionPackType()
     {
-        return (this.partitionPackType);
+        return this.partitionPackType;
     }
 
     /**
@@ -321,7 +321,7 @@ public final class  PartitionPack
      */
     public boolean isHeaderPartition()
     {
-        return (this.partitionPackType == PartitionPackType.HeaderPartitionPack);
+        return this.partitionPackType == PartitionPackType.HeaderPartitionPack;
     }
 
     /**
@@ -331,7 +331,7 @@ public final class  PartitionPack
      */
     public boolean isValidHeaderPartition()
     {
-        return (isHeaderPartition() && (this.this_partition == 0) && (this.previous_partition == 0) && (this.header_byte_count != 0));
+        return isHeaderPartition() && (this.thisPartition == 0) && (this.previousPartition == 0) && (this.headerByteCount != 0);
     }
 
     /**
@@ -341,7 +341,7 @@ public final class  PartitionPack
      */
     public boolean isBodyPartition()
     {
-        return (this.partitionPackType == PartitionPackType.BodyPartitionPack);
+        return this.partitionPackType == PartitionPackType.BodyPartitionPack;
     }
 
     /**
@@ -351,7 +351,7 @@ public final class  PartitionPack
      */
     public boolean isFooterPartition()
     {
-        return (this.partitionPackType == PartitionPackType.FooterPartitionPack);
+        return this.partitionPackType == PartitionPackType.FooterPartitionPack;
     }
 
     /**
@@ -361,7 +361,7 @@ public final class  PartitionPack
      */
     public boolean isValidFooterPartition()
     {
-        return ( (this.footer_partition.equals(this.this_partition)) && (this.body_offset == 0) && (this.body_SID == 0));
+        return (this.footerPartition.equals(this.thisPartition)) && (this.bodyOffset == 0) && (this.bodySID == 0);
     }
 
     /**
@@ -381,7 +381,7 @@ public final class  PartitionPack
      */
     public long getHeaderByteCount()
     {
-        return this.header_byte_count;
+        return this.headerByteCount;
     }
 
     /**
@@ -391,7 +391,7 @@ public final class  PartitionPack
      */
     public boolean hasHeaderMetadata()
     {
-        return (this.header_byte_count != 0);
+        return this.headerByteCount != 0;
     }
 
     /**
@@ -401,7 +401,7 @@ public final class  PartitionPack
      */
     public long getIndexByteCount()
     {
-        return this.index_byte_count;
+        return this.indexByteCount;
     }
 
     /**
@@ -411,7 +411,7 @@ public final class  PartitionPack
      */
     public long getIndexSID()
     {
-        return this.index_SID;
+        return this.indexSID;
     }
 
     /**
@@ -421,7 +421,7 @@ public final class  PartitionPack
      */
     public boolean hasIndexTableSegments()
     {
-        return ((this.index_byte_count != 0) && (this.index_SID != 0));
+        return (this.indexByteCount != 0) && (this.indexSID != 0);
     }
 
     /**
@@ -431,7 +431,7 @@ public final class  PartitionPack
      */
     public long getBodySID()
     {
-        return this.body_SID;
+        return this.bodySID;
     }
 
     /**
@@ -441,7 +441,7 @@ public final class  PartitionPack
      */
     public boolean hasEssenceContainer()
     {
-        return (this.body_SID != 0);
+        return this.bodySID != 0;
     }
 
     /**
@@ -481,7 +481,7 @@ public final class  PartitionPack
      */
     public long getPartitionByteOffset()
     {
-        return this.this_partition;
+        return this.thisPartition;
     }
 
     /**
@@ -490,7 +490,7 @@ public final class  PartitionPack
      * @return the previous_partition byte offset
      */
     public long getPreviousPartitionByteOffset(){
-        return this.previous_partition;
+        return this.previousPartition;
     }
 
     /**
@@ -505,7 +505,7 @@ public final class  PartitionPack
         {
             throw new MXFException("This partition does not contain essence data");
         }
-        return this.body_offset;
+        return this.bodyOffset;
     }
 
     /**
@@ -515,7 +515,7 @@ public final class  PartitionPack
      */
     public boolean nextHeaderWasRead()
     {
-        return (this.nextHeader != null);
+        return this.nextHeader != null;
     }
 
     /**
@@ -525,8 +525,8 @@ public final class  PartitionPack
      */
     public boolean nextPacketIsKLVFillItem()
     {
-        return (this.nextHeaderWasRead() &&
-                KLVPacket.isKLVFillItem(Arrays.copyOf(this.nextHeader.getKey(), this.nextHeader.getKey().length)));
+        return this.nextHeaderWasRead() &&
+                KLVPacket.isKLVFillItem(Arrays.copyOf(this.nextHeader.getKey(), this.nextHeader.getKey().length));
     }
 
     /**
@@ -538,11 +538,11 @@ public final class  PartitionPack
     {
         if (this.nextPacketIsKLVFillItem())
         {
-            return this.this_partition + this.getSize() + this.nextHeader.getKLSize() + this.nextHeader.getVSize();
+            return this.thisPartition + this.getSize() + this.nextHeader.getKLSize() + this.nextHeader.getVSize();
         }
         else
         {
-            return this.this_partition + this.getSize();
+            return this.thisPartition + this.getSize();
         }
     }
 
@@ -556,28 +556,28 @@ public final class  PartitionPack
         StringBuilder sb = new StringBuilder();
         sb.append("================== PartitionPack ======================\n");
         sb.append(this.header.toString());
-        sb.append(String.format("major_version = %d%n", this.major_version));
-        sb.append(String.format("minor_version = %d%n", this.minor_version));
-        sb.append(String.format("KAG_size = %d%n", this.KAG_size));
-        sb.append(String.format("this_partition = 0x%x%n", this.this_partition));
-        sb.append(String.format("previous_partition = 0x%x%n", this.previous_partition));
-        sb.append(String.format("footer_partition = 0x%x%n", this.footer_partition));
-        sb.append(String.format("header_byte_count = 0x%x%n", this.header_byte_count));
-        sb.append(String.format("index_byte_count = 0x%x%n", this.index_byte_count));
-        sb.append(String.format("index_SID = %d%n", this.index_SID));
-        sb.append(String.format("body_offset = 0x%x%n", this.body_offset));
-        sb.append(String.format("body_SID = %d%n", this.body_SID));
+        sb.append(String.format("major_version = %d%n", this.majorVersion));
+        sb.append(String.format("minor_version = %d%n", this.minorVersion));
+        sb.append(String.format("KAG_size = %d%n", this.kagSize));
+        sb.append(String.format("this_partition = 0x%x%n", this.thisPartition));
+        sb.append(String.format("previous_partition = 0x%x%n", this.previousPartition));
+        sb.append(String.format("footer_partition = 0x%x%n", this.footerPartition));
+        sb.append(String.format("header_byte_count = 0x%x%n", this.headerByteCount));
+        sb.append(String.format("index_byte_count = 0x%x%n", this.indexByteCount));
+        sb.append(String.format("index_SID = %d%n", this.indexSID));
+        sb.append(String.format("body_offset = 0x%x%n", this.bodyOffset));
+        sb.append(String.format("body_SID = %d%n", this.bodySID));
         sb.append(String.format("operational_pattern = 0x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%n",
-                this.operational_pattern[0], this.operational_pattern[1], this.operational_pattern[2], this.operational_pattern[3],
-                this.operational_pattern[4], this.operational_pattern[5], this.operational_pattern[6], this.operational_pattern[7],
-                this.operational_pattern[8], this.operational_pattern[9], this.operational_pattern[10], this.operational_pattern[11],
-                this.operational_pattern[12], this.operational_pattern[13], this.operational_pattern[14], this.operational_pattern[15]));
+                this.operationalPattern[0], this.operationalPattern[1], this.operationalPattern[2], this.operationalPattern[3],
+                this.operationalPattern[4], this.operationalPattern[5], this.operationalPattern[6], this.operationalPattern[7],
+                this.operationalPattern[8], this.operationalPattern[9], this.operationalPattern[10], this.operationalPattern[11],
+                this.operationalPattern[12], this.operationalPattern[13], this.operationalPattern[14], this.operationalPattern[15]));
         sb.append(this.essenceContainerBatch.toString());
 
         return sb.toString();
     }
 
-    private static enum PartitionKind
+    private enum PartitionKind
     {
         /**
          * The Header.

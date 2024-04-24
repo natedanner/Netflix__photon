@@ -150,7 +150,7 @@ public final class KLVPacket
             for (long b : byteArray)
             {
                 length <<= 8;
-                length += (b & 0xFF);
+                length += b & 0xFF;
             }
             if (length < 0)
             {
@@ -276,7 +276,7 @@ public final class KLVPacket
          */
         public boolean categoryDesignatorIsDictionaries()
         {
-            return (this.key[4] == 0x01);
+            return this.key[4] == 0x01;
         }
 
         /**
@@ -287,7 +287,7 @@ public final class KLVPacket
          */
         public boolean categoryDesignatorIsGroups()
         {
-            return (this.key[4] == 0x02);
+            return this.key[4] == 0x02;
         }
 
         /**
@@ -298,7 +298,7 @@ public final class KLVPacket
          */
         public boolean categoryDesignatorIsWrappersAndContainers()
         {
-            return (this.key[4] == 0x03);
+            return this.key[4] == 0x03;
         }
 
         /**
@@ -328,7 +328,7 @@ public final class KLVPacket
          */
         public boolean categoryDesignatorIsLabels()
         {
-            return (this.key[4] == 0x04);
+            return this.key[4] == 0x04;
         }
 
         /**

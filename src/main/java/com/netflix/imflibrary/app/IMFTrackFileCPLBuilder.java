@@ -451,7 +451,7 @@ public final class IMFTrackFileCPLBuilder {
             throw new IMFException(e);
         }
         List<ErrorLogger.ErrorObject> errors = imfErrorLogger.getErrors();
-        if(errors.size() > 0){
+        if(!errors.isEmpty()){
             long warningCount = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels
                     .WARNING)).count();
             logger.info(String.format("IMFTrackFile has %d errors and %d warnings",

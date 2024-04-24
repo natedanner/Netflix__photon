@@ -25,14 +25,18 @@ public final class CoreConstraints
     @Deprecated
     static String packageFromSchema(String coreConstraintsSchema)
     {
-        if (coreConstraintsSchema.equals(NAMESPACE_IMF_2013))
-            return "org.smpte_ra.schemas._2067_3._2013";
-        else if (coreConstraintsSchema.equals(NAMESPACE_IMF_2016))
+        if (coreConstraintsSchema.equals(NAMESPACE_IMF_2013)) {
+            return "org.smpte_ra.schemas._2067_3._2013"; // No mapping, just return the schema value
+        }
+        else if (coreConstraintsSchema.equals(NAMESPACE_IMF_2016)) {
             return "org.smpte_ra.schemas.st2067_2_2016";
-        else if (coreConstraintsSchema.equals(NAMESPACE_IMF_2020))
+        }
+        else if (coreConstraintsSchema.equals(NAMESPACE_IMF_2020)) {
             return "org.smpte_ra.schemas.st2067_2_2020";
-        else
-            return coreConstraintsSchema; // No mapping, just return the schema value
+        }
+        else {
+            return coreConstraintsSchema;
+        }
     }
 
     // Determine the highest Core Constraints version based on the ApplicationIds used

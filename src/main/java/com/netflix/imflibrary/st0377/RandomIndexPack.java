@@ -46,8 +46,8 @@ public final class RandomIndexPack
     private static final Integer RANDOM_INDEX_PACK_LENGTH_FIELD_SIZE = 4;//Size of the RandomIndexPackLengthField per SMPTE-ST0377-1:2011 see Section 12
 
     private final KLVPacket.Header header;
-    private final Map<Long, List<Long>> partitionMap = new LinkedHashMap<Long, List<Long>>();
-    private final List<Long> allPartitionByteOffsets = new ArrayList<Long>();
+    private final Map<Long, List<Long>> partitionMap = new LinkedHashMap<>();
+    private final List<Long> allPartitionByteOffsets = new ArrayList<>();
     @MXFProperty(size=4) private final Long length = null;
 
     /**
@@ -95,7 +95,7 @@ public final class RandomIndexPack
             List<Long> partitions = partitionMap.get(bodySIDByteOffsetPair.getBodySID());
             if (partitions == null)
             {
-                partitions = new ArrayList<Long>();
+                partitions = new ArrayList<>();
                 partitionMap.put(bodySIDByteOffsetPair.getBodySID(), partitions);
             }
             partitions.add(bodySIDByteOffsetPair.getByteOffset());

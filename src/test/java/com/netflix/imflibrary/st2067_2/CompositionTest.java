@@ -58,7 +58,7 @@ public class CompositionTest
                 ("TestIMP/Netflix_Sony_Plugfest_2015/CPL_BLACKL_202_HD_REC709_178_LAS_8fad47bb-ab01-4f0d-a08c-d1e6c6cb62b4.xml");
         IMFErrorLogger imfErrorLogger = new IMFErrorLoggerImpl();
         ApplicationCompositionFactory.getApplicationComposition(inputFile, imfErrorLogger);
-        Assert.assertTrue(imfErrorLogger.getErrors().size() == 0);
+        Assert.assertTrue(imfErrorLogger.getErrors().isEmpty());
     }
 
 
@@ -290,12 +290,12 @@ public class CompositionTest
         Composition.VirtualTrack virtualTrack9 = new IMFEssenceComponentVirtualTrack(IMFUUIDGenerator.getInstance().generateUUID(), Composition.SequenceTypeEnum.MainImageSequence, resourceList9, compositionEditRate);
         Composition.VirtualTrack virtualTrack10 = new IMFEssenceComponentVirtualTrack(IMFUUIDGenerator.getInstance().generateUUID(), Composition.SequenceTypeEnum.MainImageSequence, resourceList10, compositionEditRate);
 
-        Assert.assertTrue(virtualTrack1.equivalent(virtualTrack2) == false);
-        Assert.assertTrue(virtualTrack1.equivalent(virtualTrack3) == true);
-        Assert.assertTrue(virtualTrack4.equivalent(virtualTrack5) == true);
-        Assert.assertTrue(virtualTrack1.equivalent(virtualTrack6) == false);
-        Assert.assertTrue(virtualTrack7.equivalent(virtualTrack8) == true);
-        Assert.assertTrue(virtualTrack9.equivalent(virtualTrack10) == true);
+        Assert.assertTrue(!virtualTrack1.equivalent(virtualTrack2));
+        Assert.assertTrue(virtualTrack1.equivalent(virtualTrack3));
+        Assert.assertTrue(virtualTrack4.equivalent(virtualTrack5));
+        Assert.assertTrue(!virtualTrack1.equivalent(virtualTrack6));
+        Assert.assertTrue(virtualTrack7.equivalent(virtualTrack8));
+        Assert.assertTrue(virtualTrack9.equivalent(virtualTrack10));
     }
 
     @Test

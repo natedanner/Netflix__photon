@@ -29,7 +29,7 @@ public abstract class MCALabelSubDescriptor extends SubDescriptor {
     /**
      * Object corresponding to a parsed MultiChannelAudioLabelSubDescriptor structural metadata set defined in st377-4:2012
      */
-    public static abstract class MCALabelSubDescriptorBO extends SubDescriptorBO{
+    public abstract static class MCALabelSubDescriptorBO extends SubDescriptorBO{
 
         @MXFProperty(size=16) protected final UL mca_label_dictionary_id = null;
         @MXFProperty(size=16) protected final byte[] mca_link_id = null; //UUID type

@@ -110,16 +110,26 @@ public final class TargetFrameSubDescriptor extends SubDescriptor {
                     this.instance_uid[4], this.instance_uid[5], this.instance_uid[6], this.instance_uid[7],
                     this.instance_uid[8], this.instance_uid[9], this.instance_uid[10], this.instance_uid[11],
                     this.instance_uid[12], this.instance_uid[13], this.instance_uid[14], this.instance_uid[15]));
-            if (this.ancillary_resource_uid != null) sb.append(String.format("ancillary_resource_uid = %s%n", this.ancillary_resource_uid.toString()));
+            if (this.ancillary_resource_uid != null) {
+                sb.append(String.format("ancillary_resource_uid = %s%n", this.ancillary_resource_uid.toString()));
+            }
             sb.append(String.format("media_type = %s%n", this.media_type));
             sb.append(String.format("target_frame_index = %d%n", this.target_frame_index));
-            if (this.target_frame_transfer_characteristic != null) sb.append(String.format("target_frame_transfer_characteristic = %s%n", this.target_frame_transfer_characteristic.toString()));
-            if (this.color_primaries != null) sb.append(String.format("color_primaries = %s%n", this.color_primaries.toString()));
+            if (this.target_frame_transfer_characteristic != null) {
+                sb.append(String.format("target_frame_transfer_characteristic = %s%n", this.target_frame_transfer_characteristic.toString()));
+            }
+            if (this.color_primaries != null) {
+                sb.append(String.format("color_primaries = %s%n", this.color_primaries.toString()));
+            }
             sb.append(String.format("max_ref = %d%n", this.max_ref));
             sb.append(String.format("min_ref = %d%n", this.min_ref));
             sb.append(String.format("essence_stream_id = %d%n", this.essence_stream_id));
-            if (this.aces_picture_subdescriptor_uid != null) sb.append(String.format("aces_picture_subdescriptor_uid = %s%n", this.aces_picture_subdescriptor_uid.toString()));
-            if (this.viewing_environment != null) sb.append(String.format("viewing_environment = %s%n", this.viewing_environment.toString()));
+            if (this.aces_picture_subdescriptor_uid != null) {
+                sb.append(String.format("aces_picture_subdescriptor_uid = %s%n", this.aces_picture_subdescriptor_uid.toString()));
+            }
+            if (this.viewing_environment != null) {
+                sb.append(String.format("viewing_environment = %s%n", this.viewing_environment.toString()));
+            }
             return sb.toString();
         }
     }

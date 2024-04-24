@@ -110,7 +110,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
      * @throws IOException        any I/O related error is exposed through an IOException
      */
     public AbstractApplicationComposition(ResourceByteRangeProvider resourceByteRangeProvider) throws IOException {
-        this(IMFCompositionPlaylistType.getCompositionPlayListType( resourceByteRangeProvider, new IMFErrorLoggerImpl()), new HashSet<String>());
+        this(IMFCompositionPlaylistType.getCompositionPlayListType( resourceByteRangeProvider, new IMFErrorLoggerImpl()), new HashSet<>());
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
         }
 
         if ((compositionPlaylistType.getEssenceDescriptorList() == null) ||
-                (compositionPlaylistType.getEssenceDescriptorList().size() < 1)) {
+                (compositionPlaylistType.getEssenceDescriptorList().isEmpty())) {
             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ESSENCE_DESCRIPTOR_LIST_MISSING,
                     IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, "EssenceDescriptorList is either absent or empty.");
         }
@@ -188,12 +188,12 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
             if (virtualTrackMap.get(uuid) == null) {
                 List<? extends IMFBaseResourceType> virtualTrackResourceList = null;
                 if (virtualTrackResourceMap.get(uuid) == null) {
-                    virtualTrackResourceList = new ArrayList<IMFBaseResourceType>();
+                    virtualTrackResourceList = new ArrayList<>();
                 } else {
                     virtualTrackResourceList = virtualTrackResourceMap.get(uuid);
                 }
                 Composition.VirtualTrack virtualTrack = null;
-                if (virtualTrackResourceList.size() != 0) {
+                if (!virtualTrackResourceList.isEmpty()) {
                     if (virtualTrackResourceList.get(0) instanceof IMFTrackFileResourceType) {
                         virtualTrack = new IMFEssenceComponentVirtualTrack(uuid,
                                 sequence.getType(),
@@ -405,7 +405,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
         while (iterator != null
                 && iterator.hasNext()) {
             Composition.VirtualTrack virtualTrack = ((Map.Entry<UUID, ? extends Composition.VirtualTrack>) iterator.next()).getValue();
-            if (virtualTrack.getResourceList().size() != 0 && virtualTrack.getResourceList().get(0) instanceof IMFTrackFileResourceType) {
+            if (!virtualTrack.getResourceList().isEmpty() && virtualTrack.getResourceList().get(0) instanceof IMFTrackFileResourceType) {
                 trackFileResources.addAll(IMFEssenceComponentVirtualTrack.class.cast(virtualTrack).getTrackFileResourceList());
             }
         }
@@ -425,7 +425,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
         while (iterator != null
                 && iterator.hasNext()) {
             Composition.VirtualTrack virtualTrack = ((Map.Entry<UUID, ? extends Composition.VirtualTrack>) iterator.next()).getValue();
-            if (virtualTrack.getResourceList().size() != 0 && virtualTrack.getResourceList().get(0) instanceof IMFTrackFileResourceType) {
+            if (!virtualTrack.getResourceList().isEmpty() && virtualTrack.getResourceList().get(0) instanceof IMFTrackFileResourceType) {
                 essenceVirtualTracks.add(IMFEssenceComponentVirtualTrack.class.cast(virtualTrack));
             }
         }
@@ -565,7 +565,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
 
         List<? extends IMFBaseResourceType> resourceList = virtualTrack.getResourceList();
         if (resourceList != null
-                && resourceList.size() > 0 &&
+                && !resourceList.isEmpty() &&
                 virtualTrack.getResourceList().get(0) instanceof IMFTrackFileResourceType) {
 
             for (IMFBaseResourceType baseResource : resourceList) {
@@ -629,7 +629,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
                     DOMNodeObjectModel domNodeObjectModel = null;
                     for (Object object : essenceDescriptorBaseType.getAny()) {
                         domNodeObjectModel = new DOMNodeObjectModel((Node) object);
-                        if(domNodeObjectModel != null && ignoreSet.size() != 0) {
+                        if(domNodeObjectModel != null && !ignoreSet.isEmpty()) {
                             domNodeObjectModel = DOMNodeObjectModel.createDOMNodeObjectModelIgnoreSet(domNodeObjectModel, ignoreSet);
                         }
                     }
@@ -874,7 +874,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
             throw new IMFException("Failed to get Essence Descriptor for a resource", this.imfErrorLogger);
         }
 
-        if (resourcesEssenceDescriptorMap.entrySet().size() == 0) {
+        if (resourcesEssenceDescriptorMap.entrySet().isEmpty()) {
             String message = "Composition does not refer to a single IMFEssence represented by the HeaderPartitions " +
                     "that were passed in.";
             this.imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CPL_ERROR, IMFErrorLogger.IMFErrors
@@ -944,8 +944,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
 
     private ByteProvider getByteProvider(ResourceByteRangeProvider resourceByteRangeProvider, KLVPacket.Header header) throws IOException {
         byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(header.getByteOffset(), header.getByteOffset() + header.getKLSize() + header.getVSize());
-        ByteProvider byteProvider = new ByteArrayDataProvider(bytes);
-        return byteProvider;
+        return new ByteArrayDataProvider(bytes);
     }
 
     private List<IMFErrorLogger.ErrorObject> conformEssenceDescriptors(Map<UUID, List<DOMNodeObjectModel>> essenceDescriptorsMap, Map<UUID, DOMNodeObjectModel> eDLMap) {
@@ -973,7 +972,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
                         "Element %s in a track does not have a corresponding entry in the CPL's EDL.", sourceEncodingElement.toString()));
             }
         }
-        Set<String> ignoreSet = new HashSet<String>();
+        Set<String> ignoreSet = new HashSet<>();
         //ignoreSet.add("InstanceUID");
         //ignoreSet.add("InstanceID");
         //ignoreSet.add("EssenceLength");
@@ -1011,7 +1010,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
 
                     String domNodeName = referenceDOMNodeObjectModel.getLocalName();
                     List<DOMNodeObjectModel> domNodeObjectModelList = domNodeObjectModelsIgnoreSet.stream().filter( e -> e.getLocalName().equals(domNodeName)).collect(Collectors.toList());
-                    if(domNodeObjectModelList.size() != 0)
+                    if(!domNodeObjectModelList.isEmpty())
                     {
                         DOMNodeObjectModel diffCPLEssenceDescriptor = referenceDOMNodeObjectModel.removeNodes(domNodeObjectModelList.get(0));
                         DOMNodeObjectModel diffTrackFileEssenceDescriptor = domNodeObjectModelList.get(0).removeNodes(referenceDOMNodeObjectModel);
@@ -1040,7 +1039,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
                 this.getVideoVirtualTrack().getTrackResourceIds().iterator().next());
 
         if (imageEssencedescriptorDOMNode != null) {
-            UUID imageEssenceDescriptorID = this.getEssenceDescriptorListMap().entrySet().stream().filter(e -> e.getValue().equals(imageEssencedescriptorDOMNode)).map(e -> e.getKey()).findFirst()
+            UUID imageEssenceDescriptorID = this.getEssenceDescriptorListMap().entrySet().stream().filter(e -> e.getValue().equals(imageEssencedescriptorDOMNode)).map(Map.Entry::getKey).findFirst()
                     .get();
             imageEssenceDescriptorModel =
                     new CompositionImageEssenceDescriptorModel(imageEssenceDescriptorID, imageEssencedescriptorDOMNode,
@@ -1059,7 +1058,7 @@ public abstract class AbstractApplicationComposition implements ApplicationCompo
             }
             for(IMFEssenceDescriptorBaseType imfEssenceDescriptorBaseType : compositionPlaylistType.getEssenceDescriptorList()) {
                 if(essenceDescriptorIdToTrackFileIdMap.containsKey(imfEssenceDescriptorBaseType.getId())) {
-                    essenceDescriptorDomNodeMap.put(essenceDescriptorIdToTrackFileIdMap.get(imfEssenceDescriptorBaseType.getId()), imfEssenceDescriptorBaseType.getAny().stream().map(e -> (Node) e).collect(Collectors.toList()));
+                    essenceDescriptorDomNodeMap.put(essenceDescriptorIdToTrackFileIdMap.get(imfEssenceDescriptorBaseType.getId()), imfEssenceDescriptorBaseType.getAny().stream().map(Node.class::cast).collect(Collectors.toList()));
                 }
             }
         }

@@ -35,19 +35,21 @@ public class IMFIABConstraintsChecker {
         Iterator iterator = virtualTrackMap.entrySet().iterator();
         while(iterator.hasNext()) {
             Composition.VirtualTrack virtualTrack = ((Map.Entry<UUID, ? extends Composition.VirtualTrack>) iterator.next()).getValue();
-            if (!virtualTrack.getSequenceTypeEnum().equals(Composition.SequenceTypeEnum.IABSequence)) continue;
+            if (!virtualTrack.getSequenceTypeEnum().equals(Composition.SequenceTypeEnum.IABSequence)) {
+                continue;
+            }
 
             List<? extends IMFBaseResourceType> virtualTrackResourceList = virtualTrack.getResourceList();
             for(IMFBaseResourceType baseResource : virtualTrackResourceList) {
                 IMFTrackFileResourceType imfTrackFileResourceType = IMFTrackFileResourceType.class.cast(baseResource);
                 DOMNodeObjectModel domNodeObjectModel = essenceDescriptorListMap.get(UUIDHelper.fromUUIDAsURNStringToUUID(imfTrackFileResourceType.getSourceEncoding()));
-                if (!domNodeObjectModel.getLocalName().equals("IABEssenceDescriptor")) {
+                if (!"IABEssenceDescriptor".equals(domNodeObjectModel.getLocalName())) {
                     imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("EssenceDescriptor ID %s referenced by " +
                                     "an IAB VirtualTrack Resource does not have an IABEssenceDescriptor but %s",
                             imfTrackFileResourceType.getSourceEncoding(), domNodeObjectModel.getLocalName()));
                 }
 
-                if (((imfTrackFileResourceType.getEditRate().getNumerator()*compositionEditRate.getDenominator()) % (imfTrackFileResourceType.getEditRate().getDenominator()*compositionEditRate.getNumerator()) != 0)) {
+                if ((imfTrackFileResourceType.getEditRate().getNumerator()*compositionEditRate.getDenominator()) % (imfTrackFileResourceType.getEditRate().getDenominator()*compositionEditRate.getNumerator()) != 0) {
                     imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("The EditRate %s/%s of resource %s is not a multiple of the EditRate of the Main Image Virtual Track %s/%s",
                             imfTrackFileResourceType.getEditRate().getNumerator(), imfTrackFileResourceType.getEditRate().getDenominator(), imfTrackFileResourceType.getId(), compositionEditRate.getNumerator(), compositionEditRate.getDenominator()));
                 }
@@ -91,14 +93,16 @@ public class IMFIABConstraintsChecker {
                                     "an IAB VirtualTrack Resource has no SubDescriptor", imfTrackFileResourceType.getSourceEncoding()));
                 } else {
                     for (Map.Entry<DOMNodeObjectModel, Integer> entry : domNodeObjectModel.getChildrenDOMNodes().entrySet()) {
-                        if (!entry.getKey().getLocalName().equals("SubDescriptors")) continue;
+                        if (!"SubDescriptors".equals(entry.getKey().getLocalName())) {
+                            continue;
+                        }
 
                         for (Map.Entry<DOMNodeObjectModel, Integer> subentry : entry.getKey().getChildrenDOMNodes().entrySet()) {
 
-                            if (subentry.getKey().getLocalName().equals("AudioChannelLabelSubDescriptor") || subentry.getKey().getLocalName().equals("SoundfieldGroupLabelSubDescriptor") || subentry.getKey().getLocalName().equals("GroupOfSoundfieldGroupsLabelSubDescriptor")) {
+                            if ("AudioChannelLabelSubDescriptor".equals(subentry.getKey().getLocalName()) || "SoundfieldGroupLabelSubDescriptor".equals(subentry.getKey().getLocalName()) || "GroupOfSoundfieldGroupsLabelSubDescriptor".equals(subentry.getKey().getLocalName())) {
                                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("EssenceDescriptor ID %s referenced by " +
                                     "an IAB VirtualTrack Resource has forbidden %s", imfTrackFileResourceType.getSourceEncoding(), subentry.getKey().getLocalName()));
-                            } else if (subentry.getKey().getLocalName().equals("IABSoundfieldLabelSubDescriptor")) {
+                            } else if ("IABSoundfieldLabelSubDescriptor".equals(subentry.getKey().getLocalName())) {
 //                                if (subentry.getKey().getFieldAsString("MCAAudioContentKind") == null) {
 //                                    imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.WARNING, String.format("EssenceDescriptor ID %s referenced by " +
 //                                            "an IAB VirtualTrack Resource misses MCAAudioContentKind", imfTrackFileResourceType.getSourceEncoding()));

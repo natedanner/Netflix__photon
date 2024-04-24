@@ -108,7 +108,7 @@ public abstract class GenericPictureEssenceDescriptor extends FileDescriptor {
        
 
 
-    public static abstract class GenericPictureEssenceDescriptorBO extends FileDescriptorBO {
+    public abstract static class GenericPictureEssenceDescriptorBO extends FileDescriptorBO {
 
         @MXFProperty(size=1) protected final Short frame_layout = null;
         @MXFProperty(size=4) protected final Long stored_width = null;
@@ -156,7 +156,7 @@ public abstract class GenericPictureEssenceDescriptor extends FileDescriptor {
 
     }
 
-    public static enum RGBAComponentType {
+    public enum RGBAComponentType {
         Null(0),
         Red(0x52),
         Green(0x47),
@@ -186,7 +186,7 @@ public abstract class GenericPictureEssenceDescriptor extends FileDescriptor {
         public Integer getCode() { return this.code;}
     }
 
-    public static enum FrameLayoutType {
+    public enum FrameLayoutType {
         FullFrame(0),
         SeparateFields(1),
         SingleField(2),

@@ -76,8 +76,8 @@ import java.util.UUID;
  */
 @Immutable
 public final class OutputProfileList {
-    private final static QName  outputProfileList_QNAME             = new QName("http://www.smpte-ra.org/schemas/2067-100/2014", "OutputProfileList");
-    private final static String outputProfileList_context_path      = "org.w3._2000._09.xmldsig_:" +
+    private static final QName  outputProfileList_QNAME             = new QName("http://www.smpte-ra.org/schemas/2067-100/2014", "OutputProfileList");
+    private static final String outputProfileList_context_path      = "org.w3._2000._09.xmldsig_:" +
             "org.smpte_ra.schemas._433._2008.dcmltypes:" +
             "org.smpte_ra.schemas._2067_100._2014:" +
             "org.smpte_ra.schemas._2067_101._2014.color_schemes:" +
@@ -159,7 +159,7 @@ public final class OutputProfileList {
      * @throws IOException - any I/O related error is exposed through an IOException
      */
     public static boolean isOutputProfileList(ResourceByteRangeProvider resourceByteRangeProvider) throws IOException {
-        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1);) {
+        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1)) {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setNamespaceAware(true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -187,30 +187,30 @@ public final class OutputProfileList {
         JAXBElement jaxbElement = null;
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1);
-             InputStream xmldsig_core_is = contextClassLoader.getResourceAsStream(xmldsig_core_schema_path);
-             InputStream dcmlTypes_is = contextClassLoader.getResourceAsStream(dcmlTypes_schema_path);
-             InputStream imf_opl_100a_is = contextClassLoader.getResourceAsStream(opl_100a_schema_path);
-             InputStream imf_opl_101a_is = contextClassLoader.getResourceAsStream(opl_101a_schema_path);
-             InputStream imf_opl_101b_is = contextClassLoader.getResourceAsStream(opl_101b_schema_path);
-             InputStream imf_opl_101c_is = contextClassLoader.getResourceAsStream(opl_101c_schema_path);
-             InputStream imf_opl_101d_is = contextClassLoader.getResourceAsStream(opl_101d_schema_path);
-             InputStream imf_opl_101e_is = contextClassLoader.getResourceAsStream(opl_101e_schema_path);
-             InputStream imf_opl_101f_is = contextClassLoader.getResourceAsStream(opl_101f_schema_path);
-             InputStream imf_opl_102a_is = contextClassLoader.getResourceAsStream(opl_102a_schema_path);
-             InputStream imf_opl_103b_is = contextClassLoader.getResourceAsStream(opl_103b_schema_path)
+             InputStream xmldsigCoreIs = contextClassLoader.getResourceAsStream(xmldsig_core_schema_path);
+             InputStream dcmlTypesIs = contextClassLoader.getResourceAsStream(dcmlTypes_schema_path);
+             InputStream imfOpl100aIs = contextClassLoader.getResourceAsStream(opl_100a_schema_path);
+             InputStream imfOpl101aIs = contextClassLoader.getResourceAsStream(opl_101a_schema_path);
+             InputStream imfOpl101bIs = contextClassLoader.getResourceAsStream(opl_101b_schema_path);
+             InputStream imfOpl101cIs = contextClassLoader.getResourceAsStream(opl_101c_schema_path);
+             InputStream imfOpl101dIs = contextClassLoader.getResourceAsStream(opl_101d_schema_path);
+             InputStream imfOpl101eIs = contextClassLoader.getResourceAsStream(opl_101e_schema_path);
+             InputStream imfOpl101fIs = contextClassLoader.getResourceAsStream(opl_101f_schema_path);
+             InputStream imfOpl102aIs = contextClassLoader.getResourceAsStream(opl_102a_schema_path);
+             InputStream imfOpl103bIs = contextClassLoader.getResourceAsStream(opl_103b_schema_path)
              ) {
             StreamSource[] streamSources = new StreamSource[11];
-            streamSources[0] = new StreamSource(xmldsig_core_is);
-            streamSources[1] = new StreamSource(dcmlTypes_is);
-            streamSources[2] = new StreamSource(imf_opl_100a_is);
-            streamSources[3] = new StreamSource(imf_opl_101d_is);
-            streamSources[4] = new StreamSource(imf_opl_101b_is);
-            streamSources[5] = new StreamSource(imf_opl_101c_is);
-            streamSources[6] = new StreamSource(imf_opl_101a_is);
-            streamSources[7] = new StreamSource(imf_opl_101e_is);
-            streamSources[8] = new StreamSource(imf_opl_101f_is);
-            streamSources[9] = new StreamSource(imf_opl_102a_is);
-            streamSources[10] = new StreamSource(imf_opl_103b_is);
+            streamSources[0] = new StreamSource(xmldsigCoreIs);
+            streamSources[1] = new StreamSource(dcmlTypesIs);
+            streamSources[2] = new StreamSource(imfOpl100aIs);
+            streamSources[3] = new StreamSource(imfOpl101dIs);
+            streamSources[4] = new StreamSource(imfOpl101bIs);
+            streamSources[5] = new StreamSource(imfOpl101cIs);
+            streamSources[6] = new StreamSource(imfOpl101aIs);
+            streamSources[7] = new StreamSource(imfOpl101eIs);
+            streamSources[8] = new StreamSource(imfOpl101fIs);
+            streamSources[9] = new StreamSource(imfOpl102aIs);
+            streamSources[10] = new StreamSource(imfOpl103bIs);
 
 
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -311,50 +311,52 @@ public final class OutputProfileList {
     private static Map<String, Handle> populateCPLVirtualTrackHandles(ApplicationComposition applicationComposition, Map<String, Handle> handleMap) {
         List<? extends Composition.VirtualTrack> virtualTrackList = applicationComposition.getVirtualTracks();
         for(Composition.VirtualTrack virtualTrack: virtualTrackList) {
-            switch(virtualTrack.getSequenceTypeEnum()) {
+            if (virtualTrack.getSequenceTypeEnum() == Composition.SequenceTypeEnum.MainImageSequence) {
+                StringBuilder handleBuilder = new StringBuilder();
+                
+                        handleBuilder.append("cpl/virtual-tracks/").append(virtualTrack.getTrackID());
+                Handle handleType = new VirtualTrackHandle(handleBuilder.toString(), virtualTrack);
+                handleMap.put(handleBuilder.toString(), handleType);
+            }
+            else if (virtualTrack.getSequenceTypeEnum() == Composition.SequenceTypeEnum.MainAudioSequence) {
+                IMFEssenceComponentVirtualTrack imfEssenceComponentVirtualTrack = (IMFEssenceComponentVirtualTrack)virtualTrack;
+                for (UUID uuid : imfEssenceComponentVirtualTrack.getTrackResourceIds()) {
+                    DOMNodeObjectModel domNodeObjectModel = applicationComposition.getEssenceDescriptor(uuid);
+                    if (domNodeObjectModel != null) {
+                        Set<UL> mcaLabelDictionaryIDs = domNodeObjectModel.getFieldsAsUL("MCALabelDictionaryID");
+                        for (UL mcaLabelDictionaryID : mcaLabelDictionaryIDs) {
+                            StringBuilder handleBuilder = new StringBuilder();
+                            
+                                    handleBuilder.append("cpl/virtual-tracks/").append(virtualTrack.getTrackID());
+                            
+                                    handleBuilder.append("/MCADictionaryLabelID=").append(mcaLabelDictionaryID.toStringBytes());
+                            Handle handleType = new MCADictionaryIdHandle(handleBuilder.toString(), virtualTrack, mcaLabelDictionaryID);
+                            handleMap.put(handleBuilder.toString(), handleType);
+                        }
 
-                case MainImageSequence: {
-                    StringBuilder handleBuilder = new StringBuilder();
-                    handleBuilder.append("cpl/virtual-tracks/" + virtualTrack.getTrackID());
-                    Handle handleType = new VirtualTrackHandle(handleBuilder.toString(), virtualTrack);
-                    handleMap.put(handleBuilder.toString(), handleType);                }
-                break;
+                        Set<UUID> mcaLinkIDs = domNodeObjectModel.getFieldsAsUUID("MCALinkID");
+                        for (UUID mcaLinkID : mcaLinkIDs) {
+                            StringBuilder handleBuilder = new StringBuilder();
+                            
+                                    handleBuilder.append("cpl/virtual-tracks/").append(virtualTrack.getTrackID());
+                            
+                                    handleBuilder.append("/MCALinkID=").append(mcaLinkID.toString());
+                            Handle handleType = new MCALinkIdHandle(handleBuilder.toString(), virtualTrack, mcaLinkID);
+                            handleMap.put(handleBuilder.toString(), handleType);
+                        }
 
-                case MainAudioSequence: {
-                    IMFEssenceComponentVirtualTrack imfEssenceComponentVirtualTrack = (IMFEssenceComponentVirtualTrack) virtualTrack;
-                    for (UUID uuid : imfEssenceComponentVirtualTrack.getTrackResourceIds()) {
-                        DOMNodeObjectModel domNodeObjectModel = applicationComposition.getEssenceDescriptor(uuid);
-                        if (domNodeObjectModel != null) {
-                            Set<UL> mcaLabelDictionaryIDs = domNodeObjectModel.getFieldsAsUL("MCALabelDictionaryID");
-                            for (UL mcaLabelDictionaryID : mcaLabelDictionaryIDs) {
-                                StringBuilder handleBuilder = new StringBuilder();
-                                handleBuilder.append("cpl/virtual-tracks/" + virtualTrack.getTrackID());
-                                handleBuilder.append("/MCADictionaryLabelID=" + mcaLabelDictionaryID.toStringBytes());
-                                Handle handleType = new MCADictionaryIdHandle(handleBuilder.toString(), virtualTrack, mcaLabelDictionaryID);
-                                handleMap.put(handleBuilder.toString(), handleType);
-                            }
-
-                            Set<UUID> mcaLinkIDs = domNodeObjectModel.getFieldsAsUUID("MCALinkID");
-                            for (UUID mcaLinkID : mcaLinkIDs) {
-                                StringBuilder handleBuilder = new StringBuilder();
-                                handleBuilder.append("cpl/virtual-tracks/" + virtualTrack.getTrackID());
-                                handleBuilder.append("/MCALinkID=" + mcaLinkID.toString());
-                                Handle handleType = new MCALinkIdHandle(handleBuilder.toString(), virtualTrack, mcaLinkID);
-                                handleMap.put(handleBuilder.toString(), handleType);
-                            }
-
-                            Set<String> mcaTagSymbols = domNodeObjectModel.getFieldsAsStringRecursive("MCATagSymbol");
-                            for (String mcaTagSymbol : mcaTagSymbols) {
-                                StringBuilder handleBuilder = new StringBuilder();
-                                handleBuilder.append("cpl/virtual-tracks/" + virtualTrack.getTrackID());
-                                handleBuilder.append("/MCATagSymbol=" + mcaTagSymbol);
-                                Handle handleType = new MCATagSymbolHandle(handleBuilder.toString(), virtualTrack, mcaTagSymbol);
-                                handleMap.put(handleBuilder.toString(), handleType);
-                            }
+                        Set<String> mcaTagSymbols = domNodeObjectModel.getFieldsAsStringRecursive("MCATagSymbol");
+                        for (String mcaTagSymbol : mcaTagSymbols) {
+                            StringBuilder handleBuilder = new StringBuilder();
+                            
+                                    handleBuilder.append("cpl/virtual-tracks/").append(virtualTrack.getTrackID());
+                            
+                                    handleBuilder.append("/MCATagSymbol=").append(mcaTagSymbol);
+                            Handle handleType = new MCATagSymbolHandle(handleBuilder.toString(), virtualTrack, mcaTagSymbol);
+                            handleMap.put(handleBuilder.toString(), handleType);
                         }
                     }
                 }
-                break;
             }
         }
         return handleMap;
@@ -470,7 +472,7 @@ public final class OutputProfileList {
         return sb.toString();
     }
 
-    public static void main(String args[]) throws IOException, SAXException, JAXBException
+    public static void main(String[] args) throws IOException, SAXException, JAXBException
     {
         if (args.length != 1)
         {
@@ -488,7 +490,7 @@ public final class OutputProfileList {
         PayloadRecord payloadRecord = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.OutputProfileList, 0L, resourceByteRangeProvider.getResourceSize());
         List<ErrorLogger.ErrorObject>errors = IMPValidator.validateOPL(payloadRecord);
 
-        if(errors.size() > 0){
+        if(!errors.isEmpty()){
             long warningCount = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels
                     .WARNING)).count();
             logger.info(String.format("OutputProfileList Document has %d errors and %d warnings",

@@ -93,7 +93,7 @@ public final class MaterialPackage extends GenericPackage
 
     public List<MXFUID> getTrackInstanceUIDs()
     {
-        List<MXFUID> trackInstanceUIDs = new ArrayList<MXFUID>();
+        List<MXFUID> trackInstanceUIDs = new ArrayList<>();
         for (InterchangeObjectBO.StrongRef strongRef : this.materialPackageBO.tracks.getEntries())
         {
             trackInstanceUIDs.add(strongRef.getInstanceUID());

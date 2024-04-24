@@ -36,7 +36,7 @@ public final class OperationalPatternHelper {
     /**
      * An enumeration representing the Package Complexity
      */
-    public static enum PackageComplexity{
+    public enum PackageComplexity{
         SinglePackage(0x01),
         GangedPackages(0x02),
         AlternatePackages (0x03),
@@ -56,7 +56,7 @@ public final class OperationalPatternHelper {
     /**
      * An enumeration representing ItemComplexity
      */
-    public static enum ItemComplexity{
+    public enum ItemComplexity{
         SingleItem(0x01),
         PlaylistItems(0x02),
         EditItems (0x03),

@@ -93,8 +93,8 @@ public class CompositionPlaylistBuilder_2013 {
     private final List<List<org.smpte_ra.schemas._2067_3._2013.SequenceType>> sequenceList = new ArrayList<>();
     private final List<IMFEssenceDescriptorBaseType> imfEssenceDescriptorBaseTypeList;
 
-    public final static String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
-    private final static String defaultContentKindScope = "http://www.smpte-ra.org/schemas/2067-3/XXXX#content-kind";
+    public static final String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
+    private static final String defaultContentKindScope = "http://www.smpte-ra.org/schemas/2067-3/XXXX#content-kind";
     private final String cplFileName;
     private final String coreConstraintsSchema;
     private final Set<String> applicationIds;
@@ -329,7 +329,7 @@ public class CompositionPlaylistBuilder_2013 {
         try(InputStream dsigSchemaAsAStream = contextClassLoader.getResourceAsStream
                 ("org/w3/_2000_09/xmldsig/xmldsig-core-schema.xsd");
         InputStream coreConstraintsSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2013/imf-core-constraints-20130620-pal.xsd");
-        OutputStream outputStream = new FileOutputStream(outputFile);)
+        OutputStream outputStream = new FileOutputStream(outputFile))
         {
             try
             {
@@ -396,7 +396,7 @@ public class CompositionPlaylistBuilder_2013 {
     public org.smpte_ra.schemas._2067_3._2013.ContentKindType buildContentKindType(@Nonnull String value, String scope)  {
 
         org.smpte_ra.schemas._2067_3._2013.ContentKindType contentKindType = new org.smpte_ra.schemas._2067_3._2013.ContentKindType();
-        if(!scope.matches("^[a-zA-Z0-9._-]+") == true) {
+        if(!scope.matches("^[a-zA-Z0-9._-]+")) {
             this.imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CPL_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("The ContentKind scope %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)", scope)));
             contentKindType.setScope(scope);
         }
@@ -512,7 +512,7 @@ public class CompositionPlaylistBuilder_2013 {
      */
     public org.smpte_ra.schemas._2067_3._2013.ContentMaturityRatingType buildContentMaturityRatingType(String agency, String rating, org.smpte_ra.schemas._2067_3._2013.ContentMaturityRatingType.Audience audience) throws URISyntaxException {
         org.smpte_ra.schemas._2067_3._2013.ContentMaturityRatingType contentMaturityRatingType = new org.smpte_ra.schemas._2067_3._2013.ContentMaturityRatingType();
-        if(!agency.matches("^[a-zA-Z0-9._-]+") == true) {
+        if(!agency.matches("^[a-zA-Z0-9._-]+")) {
             //this.imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CPL_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("The ContentKind scope %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)", id)));
             throw new URISyntaxException("Invalid URI", "The ContentMaturityRating agency %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)");
         }
@@ -708,7 +708,7 @@ public class CompositionPlaylistBuilder_2013 {
      * A thin class that maintains a reference to a VirtualTrack Sequence object and the type of the Sequence.
      * Its state is opaque to classes outside this builder
      */
-    public static class SequenceTypeTuple{
+    public static final class SequenceTypeTuple {
         private final org.smpte_ra.schemas._2067_3._2013.SequenceType sequence;
         private final Composition.SequenceTypeEnum sequenceType;
 

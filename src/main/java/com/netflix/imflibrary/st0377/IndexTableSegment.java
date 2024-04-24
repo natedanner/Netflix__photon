@@ -61,18 +61,18 @@ public final class IndexTableSegment
     }
 
     private final KLVPacket.Header header;
-    @MXFProperty(size=16) private final byte[] instance_UID = null;
+    @MXFProperty(size=16) private final byte[] instanceUID = null;
     @MXFProperty(size=0) private final CompoundDataTypes.Rational indexEditRate = null;
-    @MXFProperty(size=8) private final Long index_start_position = null;
-    @MXFProperty(size=8) private final Long index_duration = null;
-    @MXFProperty(size=4) private final Long edit_unit_byte_count = null;
-    @MXFProperty(size=4) private final Long index_SID = null;
-    @MXFProperty(size=4) private final Long body_SID = null;
-    @MXFProperty(size=1) private final Short slice_count = null;
-    @MXFProperty(size=1) private final Short pos_table_count = null;
+    @MXFProperty(size=8) private final Long indexStartPosition = null;
+    @MXFProperty(size=8) private final Long indexDuration = null;
+    @MXFProperty(size=4) private final Long editUnitByteCount = null;
+    @MXFProperty(size=4) private final Long indexSID = null;
+    @MXFProperty(size=4) private final Long bodySID = null;
+    @MXFProperty(size=1) private final Short sliceCount = null;
+    @MXFProperty(size=1) private final Short posTableCount = null;
     private final IndexEntryArray indexEntryArray;
-    @MXFProperty(size=8) private final Long ext_start_offset = null;
-    @MXFProperty(size=8) private final Long vbe_byte_count = null;
+    @MXFProperty(size=8) private final Long extStartOffset = null;
+    @MXFProperty(size=8) private final Long vbeByteCount = null;
 
 
     /**
@@ -157,28 +157,28 @@ public final class IndexTableSegment
         sb.append("================== IndexTableSegment ======================\n");
         sb.append(this.header.toString());
         sb.append(String.format("instance_UID = 0x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%n",
-                this.instance_UID[0], this.instance_UID[1], this.instance_UID[2], this.instance_UID[3],
-                this.instance_UID[4], this.instance_UID[5], this.instance_UID[6], this.instance_UID[7],
-                this.instance_UID[8], this.instance_UID[9], this.instance_UID[10], this.instance_UID[11],
-                this.instance_UID[12], this.instance_UID[13], this.instance_UID[14], this.instance_UID[15]));
+                this.instanceUID[0], this.instanceUID[1], this.instanceUID[2], this.instanceUID[3],
+                this.instanceUID[4], this.instanceUID[5], this.instanceUID[6], this.instanceUID[7],
+                this.instanceUID[8], this.instanceUID[9], this.instanceUID[10], this.instanceUID[11],
+                this.instanceUID[12], this.instanceUID[13], this.instanceUID[14], this.instanceUID[15]));
         if (this.indexEditRate != null)
         {
             sb.append("================== IndexEditRate ======================\n");
             sb.append(this.indexEditRate.toString());
         }
-        sb.append(String.format("index_start_position = 0x%x%n", this.index_start_position));
-        sb.append(String.format("index_duration = 0x%x%n", this.index_duration));
-        sb.append(String.format("edit_unit_byte_count = %d%n", this.edit_unit_byte_count));
-        sb.append(String.format("index_SID = %d%n", this.index_SID));
-        sb.append(String.format("body_SID = %d%n", this.body_SID));
-        sb.append(String.format("slice_count = %d%n", this.slice_count));
-        sb.append(String.format("pos_table_count = %d%n", this.pos_table_count));
+        sb.append(String.format("index_start_position = 0x%x%n", this.indexStartPosition));
+        sb.append(String.format("index_duration = 0x%x%n", this.indexDuration));
+        sb.append(String.format("edit_unit_byte_count = %d%n", this.editUnitByteCount));
+        sb.append(String.format("index_SID = %d%n", this.indexSID));
+        sb.append(String.format("body_SID = %d%n", this.bodySID));
+        sb.append(String.format("slice_count = %d%n", this.sliceCount));
+        sb.append(String.format("pos_table_count = %d%n", this.posTableCount));
         if (this.indexEntryArray != null)
         {
             sb.append(this.indexEntryArray.toString());
         }
-        sb.append(String.format("ext_start_offset = 0x%x%n", this.ext_start_offset));
-        sb.append(String.format("vbe_byte_count = %d%n", this.vbe_byte_count));
+        sb.append(String.format("ext_start_offset = 0x%x%n", this.extStartOffset));
+        sb.append(String.format("vbe_byte_count = %d%n", this.vbeByteCount));
         return sb.toString();
     }
 

@@ -32,8 +32,7 @@ public class DOMNodeObjectModelTest {
 
     private ByteProvider getByteProvider(ResourceByteRangeProvider resourceByteRangeProvider, KLVPacket.Header header) throws IOException {
         byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(header.getByteOffset(), header.getByteOffset() + header.getKLSize() + header.getVSize());
-        ByteProvider byteProvider = new ByteArrayDataProvider(bytes);
-        return byteProvider;
+        return new ByteArrayDataProvider(bytes);
     }
 
     public List<DOMNodeObjectModel> setUp(File inputFile) throws IOException, ParserConfigurationException {
@@ -99,7 +98,7 @@ public class DOMNodeObjectModelTest {
         for(int i=1; i<domNodeObjectModels.size(); i++){
             result &= curr.equals(domNodeObjectModels.get(i).createDOMNodeObjectModelIgnoreSet(domNodeObjectModels.get(i), ignoreSet));
         }
-        Assert.assertTrue(result == false);
+        Assert.assertTrue(!result);
     }
 
     @Test
@@ -117,6 +116,6 @@ public class DOMNodeObjectModelTest {
         for(int i=1; i<domNodeObjectModels.size(); i++){
             result &= curr.equals(domNodeObjectModels.get(i).createDOMNodeObjectModelIgnoreSet(domNodeObjectModels.get(i), ignoreSet));
         }
-        Assert.assertTrue(result == true);
+        Assert.assertTrue(result);
     }
 }

@@ -58,7 +58,7 @@ public class ValidationEventHandlerImpl implements ValidationEventHandler {
      * @return boolean to signal if serializing the XML document occurred with/without errors
      */
     public boolean hasErrors(){
-        return (this.errors.size() > 0);
+        return !this.errors.isEmpty();
     }
 
     /**
@@ -84,7 +84,7 @@ public class ValidationEventHandlerImpl implements ValidationEventHandler {
     /**
      * A class that represents errors that occur while serializing an XML document
      */
-    public static class ValidationErrorObject{
+    public static final class ValidationErrorObject {
         private final int validationEventSeverity;
         private final int lineNumber;
         private final String errorMessage;

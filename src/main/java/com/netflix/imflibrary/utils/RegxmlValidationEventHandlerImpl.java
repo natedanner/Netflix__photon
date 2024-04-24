@@ -58,7 +58,7 @@ public class RegxmlValidationEventHandlerImpl implements EventHandler {
      * @return boolean to signal if serializing the XML document occurred with/without errors
      */
     public boolean hasErrors(){
-        return (this.errors.size() > 0);
+        return !this.errors.isEmpty();
     }
 
     /**
@@ -84,7 +84,7 @@ public class RegxmlValidationEventHandlerImpl implements EventHandler {
     /**
      * A class that represents errors that occur while serializing an XML document
      */
-    public static class ValidationErrorObject{
+    public static final class ValidationErrorObject {
         private final Event.Severity validationEventSeverity;
         private final Enum code;
         private final String errorMessage;

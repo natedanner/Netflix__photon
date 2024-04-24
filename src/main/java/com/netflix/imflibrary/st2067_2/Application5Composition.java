@@ -48,14 +48,13 @@ public class Application5Composition extends AbstractApplicationComposition {
     public static final Integer MAX_RGB_IMAGE_FRAME_WIDTH = Integer.MAX_VALUE; //TODO: 2067-50 specifies 2^32-1, would require using Long instead of Integer
     public static final Integer MAX_RGB_IMAGE_FRAME_HEIGHT = Integer.MAX_VALUE; //TODO: 2067-50 specifies 2^32-1, would require using Long instead of Integer
     public static final Map<Colorimetry, Set<Integer>>colorToBitDepthMap = Collections.unmodifiableMap(new HashMap<Colorimetry, Set<Integer>>() {{
-        put(Colorimetry.Unknown, new HashSet<Integer>(){{ }});
+        put(Colorimetry.Unknown, new HashSet<Integer>(){});
         put(Colorimetry.Color_App5_AP0, new HashSet<Integer>(){{ add(16); }});
     }});
     public static final Set<Integer>bitDepthsSupported = Collections.unmodifiableSet(new HashSet<Integer>() {{
         add(16); }});
 
-    private static final Set<String> ignoreSet = Collections.unmodifiableSet(new HashSet<String>() {{
-    }});
+    private static final Set<String> ignoreSet = Collections.unmodifiableSet(new HashSet<String>() {});
 
     private static final Set<String> acesPictureSubDescriptorHomogeneitySelectionSet = Collections.unmodifiableSet(new HashSet<String>(){{
         add("ACESAuthoringInformation");
@@ -128,7 +127,7 @@ public class Application5Composition extends AbstractApplicationComposition {
             // Validate all Essence Descriptors, because ACES sub-descriptors are not required to be homogeneous for all elements, in particular the TargetFrameSubDescriptors may differ per ST 2067-50.
             for(DOMNodeObjectModel imageEssencedescriptorDOMNode : virtualTrackEssenceDescriptors){
                 CompositionImageEssenceDescriptorModel imageEssenceDescriptorModel = null;
-                UUID imageEssenceDescriptorID = this.getEssenceDescriptorListMap().entrySet().stream().filter(e -> e.getValue().equals(imageEssencedescriptorDOMNode)).map(e -> e.getKey()).findFirst()
+                UUID imageEssenceDescriptorID = this.getEssenceDescriptorListMap().entrySet().stream().filter(e -> e.getValue().equals(imageEssencedescriptorDOMNode)).map(Map.Entry::getKey).findFirst()
                         .get();
                 imageEssenceDescriptorModel = new CompositionImageEssenceDescriptorModel(imageEssenceDescriptorID, imageEssencedescriptorDOMNode,
                                 regXMLLibDictionary);
@@ -232,14 +231,14 @@ public class Application5Composition extends AbstractApplicationComposition {
         }
 
         UL essenceContainerFormatUL = imageEssenceDescriptorModel.getEssenceContainerFormatUL();
-        UL MXFGCFrameWrappedACESPictures = UL.fromULAsURNStringToUL("urn:smpte:ul:060e2b34.0401010d.0d010301.02190100"); // MXF-GC Frame-wrapped ACES Pictures per 2065-5
+        UL mxfgcFrameWrappedACESPictures = UL.fromULAsURNStringToUL("urn:smpte:ul:060e2b34.0401010d.0d010301.02190100"); // MXF-GC Frame-wrapped ACES Pictures per 2065-5
         if(essenceContainerFormatUL == null) {
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                         IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                         String.format("EssenceDescriptor with ID %s does not contain a ContainerFormat as per %s",
                                 imageEssenceDescriptorID.toString(), applicationCompositionType.toString()));
         } else  {
-            if (!essenceContainerFormatUL.equals(MXFGCFrameWrappedACESPictures)) {
+            if (!essenceContainerFormatUL.equals(mxfgcFrameWrappedACESPictures)) {
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                         IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                         String.format("EssenceDescriptor with ID %s has invalid ContainerFormat(%s) as per %s",

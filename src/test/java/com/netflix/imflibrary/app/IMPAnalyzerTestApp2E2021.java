@@ -22,7 +22,7 @@ public class IMPAnalyzerTestApp2E2021
         IMFErrorLogger logger = new IMFErrorLoggerImpl();
 
         ApplicationCompositionFactory.getApplicationComposition(inputFile, logger);
-        logger.getErrors().forEach(e -> {System.out.println(e.getErrorDescription());});
+        logger.getErrors().forEach(e ->System.out.println(e.getErrorDescription()));
         Assert.assertEquals(logger.getErrors().size(), 0);
     }
 

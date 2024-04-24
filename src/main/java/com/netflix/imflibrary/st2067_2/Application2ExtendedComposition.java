@@ -40,7 +40,7 @@ public class Application2ExtendedComposition extends AbstractApplicationComposit
         add(new Fraction(24)); add(new Fraction(25)); add(new Fraction(30)); add(new Fraction(50)); add(new Fraction(60));
         add(new Fraction(24000, 1001)); add(new Fraction(30000, 1001)); add(new Fraction(60000, 1001)); }});
     public static final Map<Colorimetry, Set<Integer>>colorToBitDepthMap = Collections.unmodifiableMap(new HashMap<Colorimetry, Set<Integer>>() {{
-        put(Colorimetry.Unknown, new HashSet<Integer>(){{ }});
+        put(Colorimetry.Unknown, new HashSet<Integer>(){});
         put(Colorimetry.Color3, new HashSet<Integer>(){{ add(8); add(10); }});
         put(Colorimetry.Color4, new HashSet<Integer>(){{ add(8); add(10); }});
         put(Colorimetry.Color5, new HashSet<Integer>(){{ add(10); add(12); }});
@@ -118,8 +118,8 @@ public class Application2ExtendedComposition extends AbstractApplicationComposit
 
         //storedWidth
         Integer storedWidth = imageEssenceDescriptorModel.getStoredWidth();
-        if (((colorModel.equals(ColorModel.RGB) && storedWidth > MAX_RGB_IMAGE_FRAME_WIDTH) ||
-                (colorModel.equals(ColorModel.YUV) && storedWidth > MAX_YUV_IMAGE_FRAME_WIDTH))) {
+        if ((colorModel.equals(ColorModel.RGB) && storedWidth > MAX_RGB_IMAGE_FRAME_WIDTH) ||
+                (colorModel.equals(ColorModel.YUV) && storedWidth > MAX_YUV_IMAGE_FRAME_WIDTH)) {
             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                     IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                     String.format("EssenceDescriptor with ID %s has invalid StoredWidth(%d) for ColorModel(%s) as per %s",
@@ -128,8 +128,8 @@ public class Application2ExtendedComposition extends AbstractApplicationComposit
 
         //storedHeight
         Integer storedHeight = imageEssenceDescriptorModel.getStoredHeight();
-        if (((colorModel.equals(ColorModel.RGB) && storedHeight > MAX_RGB_IMAGE_FRAME_HEIGHT) ||
-                        (colorModel.equals(ColorModel.YUV) && storedHeight > MAX_YUV_IMAGE_FRAME_HEIGHT))) {
+        if ((colorModel.equals(ColorModel.RGB) && storedHeight > MAX_RGB_IMAGE_FRAME_HEIGHT) ||
+                        (colorModel.equals(ColorModel.YUV) && storedHeight > MAX_YUV_IMAGE_FRAME_HEIGHT)) {
             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                     IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                     String.format("EssenceDescriptor with ID %s has invalid storedHeight(%d) for ColorModel(%s) as per %s",

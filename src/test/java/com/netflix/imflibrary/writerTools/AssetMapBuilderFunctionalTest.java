@@ -65,7 +65,7 @@ public class AssetMapBuilderFunctionalTest {
         List<AssetMap.Asset> assets = assetMap.getAssetList();
         List<AssetMapBuilder.Asset> assetMapBuilderAssets = new ArrayList<>();
         for(AssetMap.Asset asset : assets){
-            String annotationText = (asset.isPackingList() ? "PKL" : "Netflix Asset");
+            String annotationText = asset.isPackingList() ? "PKL" : "Netflix Asset";
             String language = "en";
 
             AssetMapBuilder.Chunk chunk = new AssetMapBuilder.Chunk(asset.getPath().toString(), 10L); //All assets will have a length of 10 bytes perhaps okay for a functional test.
@@ -90,7 +90,7 @@ public class AssetMapBuilderFunctionalTest {
 
         List<ErrorLogger.ErrorObject> fatalErrors = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger
                 .IMFErrors.ErrorLevels.FATAL)).collect(Collectors.toList());
-        if(fatalErrors.size() > 0) {
+        if(!fatalErrors.isEmpty()) {
             throw new IMFAuthoringException(String.format("Fatal errors occurred while generating the AssetMap. " +
                     "Please see following error messages %s", Utilities.serializeObjectCollectionToString(fatalErrors)));
         }
@@ -107,7 +107,7 @@ public class AssetMapBuilderFunctionalTest {
         Assert.assertTrue(assetMapFile.length() > 0);
 
         List<ErrorLogger.ErrorObject> assetMapValidationErrors = IMPValidator.validateAssetMap(new PayloadRecord(new FileByteRangeProvider(assetMapFile).getByteRangeAsBytes(0, assetMapFile.length()-1), PayloadRecord.PayloadAssetType.AssetMap, 0L, 0L));
-        Assert.assertTrue(assetMapValidationErrors.size() == 0);
+        Assert.assertTrue(assetMapValidationErrors.isEmpty());
 
         //Destroy the temporary working directory
         tempDir.delete();

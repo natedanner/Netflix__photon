@@ -253,7 +253,7 @@ public class HeaderPartitionTest
 
         Assert.assertTrue(headerPartition.hasAudioChannelLabelSubDescriptors());
         Assert.assertEquals(headerPartition.getAudioChannelLabelSubDescriptors().size(), 6);
-        if(headerPartition.getAudioChannelLabelSubDescriptors().size() == 0){
+        if(headerPartition.getAudioChannelLabelSubDescriptors().isEmpty()){
             throw new MXFException(String.format("Asset seems to be invalid since it does not contain any AudioChannelLabelSubDescriptors"));
         }
         Assert.assertEquals(headerPartition.getAudioContentKind(), AudioContentKind.Unknown);

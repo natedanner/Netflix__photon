@@ -23,7 +23,7 @@ public class OutputProfileListTest
         OutputProfileList outputProfileList = OutputProfileList.getOutputProfileListType(new FileByteRangeProvider(inputFile), imfErrorLogger);
 
         Assert.assertEquals(outputProfileList.getCompositionPlaylistId().toString(), "0eb3d1b9-b77b-4d3f-bbe5-7c69b15dca85");
-        Assert.assertEquals(outputProfileList.getAnnotation().toString(), "OPL Example");
+        Assert.assertEquals(outputProfileList.getAnnotation(), "OPL Example");
         Assert.assertEquals(outputProfileList.getId().toString(), "8cf83c32-4949-4f00-b081-01e12b18932f");
         Assert.assertEquals(((PresetMacro)outputProfileList.getMacroMap().entrySet().iterator().next().getValue()).getPreset(), "playback_cpl");
         Assert.assertEquals(outputProfileList.getErrors().size(), 0);
@@ -40,7 +40,7 @@ public class OutputProfileListTest
 
         Assert.assertEquals(outputProfileList.getCompositionPlaylistId().toString(), "0eb3d1b9-b77b-4d3f-bbe5-7c69b15dca85");
         Assert.assertEquals(outputProfileList.getAliasMap().size(), 3);
-        Assert.assertEquals(outputProfileList.getAnnotation().toString(), "OPL Example");
+        Assert.assertEquals(outputProfileList.getAnnotation(), "OPL Example");
         Assert.assertEquals(outputProfileList.getId().toString(), "8cf83c32-4949-4f00-b081-01e12b18932f");
         Assert.assertEquals(outputProfileList.getErrors().size(), 0);
 
@@ -60,7 +60,7 @@ public class OutputProfileListTest
 
         Assert.assertEquals(outputProfileList.getCompositionPlaylistId().toString(), "0eb3d1b9-b77b-4d3f-bbe5-7c69b15dca85");
         Assert.assertEquals(outputProfileList.getAliasMap().size(), 3);
-        Assert.assertEquals(outputProfileList.getAnnotation().toString(), "OPL Example");
+        Assert.assertEquals(outputProfileList.getAnnotation(), "OPL Example");
         Assert.assertEquals(outputProfileList.getId().toString(), "8cf83c32-4949-4f00-b081-01e12b18932f");
 
         Assert.assertEquals(outputProfileList.getMacroMap().size(), 5);

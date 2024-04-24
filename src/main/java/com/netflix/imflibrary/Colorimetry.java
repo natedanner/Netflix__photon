@@ -57,7 +57,7 @@ public enum Colorimetry {
         return Unknown;
     }
 
-    public static enum CodingEquation {
+    public enum CodingEquation {
         ITU601(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.01.04.01.01.01.02.01.00.00")),
         ITU709(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.01.04.01.01.01.02.02.00.00")),
         ITU2020NCL(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.0D.04.01.01.01.02.06.00.00")),
@@ -82,7 +82,7 @@ public enum Colorimetry {
         }
     }
 
-    public static enum TransferCharacteristic {
+    public enum TransferCharacteristic {
         ITU709(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.01.04.01.01.01.01.02.00.00")),
         IEC6196624xvYCC(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.0D.04.01.01.01.01.08.00.00")),
         ITU2020(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.0E.04.01.01.01.01.09.00.00")),
@@ -110,7 +110,7 @@ public enum Colorimetry {
         }
     }
 
-    public static enum ColorPrimaries {
+    public enum ColorPrimaries {
         ITU470PAL(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.06.04.01.01.01.03.02.00.00")),
         SMPTE170M(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.06.04.01.01.01.03.01.00.00")),
         ITU709(UL.fromULAsURNStringToUL("urn:smpte:ul:06.0E.2B.34.04.01.01.06.04.01.01.01.03.03.00.00")),
@@ -171,9 +171,9 @@ public enum Colorimetry {
 
             ComponentLevel otherObject = (ComponentLevel)other;
 
-            return (this.bitDepth.equals(otherObject.getBitDepth()) &&
+            return this.bitDepth.equals(otherObject.getBitDepth()) &&
                     this.maxLevel.equals(otherObject.getMaxLevel()) &&
-                    this.minLevel.equals(otherObject.getMinLevel()));
+                    this.minLevel.equals(otherObject.getMinLevel());
         }
 
         public int hashCode()
@@ -186,7 +186,7 @@ public enum Colorimetry {
         }
     }
 
-    public static enum Quantization {
+    public enum Quantization {
         QE1(new HashSet<ComponentLevel>() {{
             add(new ComponentLevel(8, 16L, 235L));
             add(new ComponentLevel(10, 64L, 940L));
@@ -231,7 +231,7 @@ public enum Colorimetry {
         }
     }
 
-    public static enum Sampling {
+    public enum Sampling {
         Sampling444(1, 1),
         Sampling422(2, 1),
         Unknown(0, 0);
@@ -260,7 +260,7 @@ public enum Colorimetry {
         }
     }
 
-    public static enum ColorModel {
+    public enum ColorModel {
         RGB(new HashSet<RGBAComponentType>() {{ add(RGBAComponentType.Red); add(RGBAComponentType.Green); add(RGBAComponentType.Blue);}}),
         YUV(new HashSet<RGBAComponentType>() {{ add(RGBAComponentType.Luma); add(RGBAComponentType.ChromaU); add(RGBAComponentType.ChromaV);}}),
         Unknown(new HashSet<>());

@@ -235,11 +235,11 @@ public class AssetMapBuilder {
             String[] pathSegments = path.split("/");
             List<String> invalidPathSegments = new ArrayList<>();
             for(String pathSegment : pathSegments) {
-                if (pathSegment.matches("^[a-zA-Z0-9._-]+") == false) {
+                if (!pathSegment.matches("^[a-zA-Z0-9._-]+")) {
                     invalidPathSegments.add(pathSegment);
                 }
             }
-            if(invalidPathSegments.size() > 0){
+            if(!invalidPathSegments.isEmpty()){
                 throw new URISyntaxException(path,
                         String.format("The Asset path %s does not conform to the specified URI syntax in Annex-A of st429-9:2014 (a-z, A-Z, 0-9, ., _, -) for a path segment, the following path segments do not comply %s", path, Utilities.serializeObjectCollectionToString(invalidPathSegments)));
             }

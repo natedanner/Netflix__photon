@@ -158,7 +158,7 @@ public final class Composition {
                 return false;
             }
             EditRate other = (EditRate) object;
-            return ((this.getNumerator().equals(other.getNumerator())) && (this.getDenominator().equals(other.getDenominator())));
+            return (this.getNumerator().equals(other.getNumerator())) && (this.getDenominator().equals(other.getDenominator()));
         }
 
         /**
@@ -180,7 +180,7 @@ public final class Composition {
      * This class enumerates various types of {@link org.smpte_ra.schemas._2067_3._2013.SequenceType Sequence} that are valid in
      * Composition document that is compliant with st2067-2:2013. Such types are mostly defined in Section 6.3 of st2067-2:2013
      */
-    public static enum SequenceTypeEnum {
+    public enum SequenceTypeEnum {
         MarkerSequence("MarkerSequence"),
         MainImageSequence("MainImageSequence"),
         MainAudioSequence("MainAudioSequence"),
@@ -324,8 +324,7 @@ public final class Composition {
         public long getDuration(){
             long duration = getDurationInTrackEditRateUnits();
             Composition.EditRate resourceEditRate = this.resources.get(0).getEditRate();//Resources of this virtual track should all have the same edit rate we enforce that check during IMFCoreConstraintsChecker.checkVirtualTracks()
-            long durationInCompositionEditUnits = Math.round((double) duration * (((double)this.compositionEditRate.getNumerator()/this.compositionEditRate.getDenominator()) / ((double)resourceEditRate.getNumerator()/resourceEditRate.getDenominator())));
-            return durationInCompositionEditUnits;
+            return Math.round((double) duration * (((double)this.compositionEditRate.getNumerator()/this.compositionEditRate.getDenominator()) / ((double)resourceEditRate.getNumerator()/resourceEditRate.getDenominator())));
         }
 
         /**
@@ -337,7 +336,7 @@ public final class Composition {
         public boolean equivalent(Composition.VirtualTrack other) {
             if (other == null
                     || (!this.getSequenceTypeEnum().equals(other.getSequenceTypeEnum()))
-                    || (this.resources.size() == 0 || other.resources.size() == 0)) {
+                    || (this.resources.isEmpty() || other.resources.isEmpty())) {
                 return false;
             }
 
@@ -457,7 +456,7 @@ public final class Composition {
         return sb.toString();
     }
 
-    public static void main(String args[]) throws IOException, SAXException, JAXBException
+    public static void main(String[] args) throws IOException, SAXException, JAXBException
     {
         if (args.length != 1)
         {
@@ -475,7 +474,7 @@ public final class Composition {
         PayloadRecord payloadRecord = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.CompositionPlaylist, 0L, resourceByteRangeProvider.getResourceSize());
         List<ErrorLogger.ErrorObject>errors = IMPValidator.validateCPL(payloadRecord);
 
-        if(errors.size() > 0){
+        if(!errors.isEmpty()){
             long warningCount = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels
                     .WARNING)).count();
             logger.info(String.format("CompositionPlaylist Document has %d errors and %d warnings",

@@ -31,7 +31,7 @@ import java.util.Arrays;
 public final class ByteArrayDataProvider implements ByteProvider {
 
     private final byte[] bytes;
-    private int position = 0;
+    private int position;
 
 
     /**

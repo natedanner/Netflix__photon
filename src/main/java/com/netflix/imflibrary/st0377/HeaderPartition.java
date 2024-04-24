@@ -180,7 +180,7 @@ public final class HeaderPartition
         }
 
         //header partition validation
-        int prefaceSetCount = (this.interchangeObjectBOsMap.containsKey(Preface.PrefaceBO.class.getSimpleName()) && this.interchangeObjectBOsMap.get(Preface.PrefaceBO.class.getSimpleName()) != null)
+        int prefaceSetCount = this.interchangeObjectBOsMap.containsKey(Preface.PrefaceBO.class.getSimpleName()) && this.interchangeObjectBOsMap.get(Preface.PrefaceBO.class.getSimpleName()) != null
                 ? this.interchangeObjectBOsMap.get(Preface.PrefaceBO.class.getSimpleName()).size() : 0;
 
         if (prefaceSetCount != 1)
@@ -216,9 +216,9 @@ public final class HeaderPartition
             Node node = entry.getValue();
             InterchangeObject.InterchangeObjectBO interchangeObjectBO = uidToBOs.get(node.uid);
             List<MXFUID> dependentUIDs = MXFPropertyPopulator.getDependentUIDs(interchangeObjectBO);
-            for(MXFUID MXFUID : dependentUIDs)
+            for(MXFUID mxfuid : dependentUIDs)
             {
-                InterchangeObject.InterchangeObjectBO dependentInterchangeObjectBO = uidToBOs.get(MXFUID);
+                InterchangeObject.InterchangeObjectBO dependentInterchangeObjectBO = uidToBOs.get(mxfuid);
                 if (dependentInterchangeObjectBO != null)
                 {
                     Node providerNode = instanceIDToNodes.get(dependentInterchangeObjectBO.getInstanceUID());
@@ -233,7 +233,7 @@ public final class HeaderPartition
 
         for(Node node : resolvedList) {
             InterchangeObject.InterchangeObjectBO interchangeObjectBO = uidToBOs.get(node.uid);
-            if (node.depends.size() == 0
+            if (node.depends.isEmpty()
                     && !interchangeObjectBO.getClass().equals(SourceClip.SourceClipBO.class)
                     && !interchangeObjectBO.getClass().equals(Sequence.SequenceBO.class)
                     && !interchangeObjectBO.getClass().equals(TimedTextDescriptor.TimedTextDescriptorBO.class)){
@@ -400,7 +400,7 @@ public final class HeaderPartition
                     this.cacheInterchangeObject(rgbaPictureEssenceDescriptor);
                     uidToMetadataSets.put(interchangeObjectBO.getInstanceUID(), rgbaPictureEssenceDescriptor);
                 } else if(interchangeObjectBO.getClass().getEnclosingClass().equals(WaveAudioEssenceDescriptor.class)){
-                    List<InterchangeObject> subDescriptors = new ArrayList<InterchangeObject>();
+                    List<InterchangeObject> subDescriptors = new ArrayList<>();
                     for(Node dependent : node.depends) {
                         InterchangeObject dependentInterchangeObject = uidToMetadataSets.get(dependent.uid);
                         /*
@@ -420,8 +420,8 @@ public final class HeaderPartition
                             subDescriptors.add(soundFieldGroupLabelSubDescriptor);
                         }
                     }
-                    if(node.depends.size() > 0
-                        && subDescriptors.size() == 0){
+                    if(!node.depends.isEmpty()
+                        && subDescriptors.isEmpty()){
                         throw new MXFException(String.format("The WaveAudioEssenceDescriptor in the essence has dependencies, but neither of them is a AudioChannelLabelSubDescriptor nor SoundFieldGroupLabelSubDescriptor"));
                     }
                     WaveAudioEssenceDescriptor waveAudioEssenceDescriptor = new WaveAudioEssenceDescriptor((WaveAudioEssenceDescriptor.WaveAudioEssenceDescriptorBO) interchangeObjectBO);
@@ -510,7 +510,7 @@ public final class HeaderPartition
     private void cacheInterchangeObject(InterchangeObject interchangeObject){
         List<InterchangeObject> list = this.interchangeObjectsMap.get(interchangeObject.getClass().getSimpleName());
         if(list == null){
-            list = new ArrayList<InterchangeObject>();
+            list = new ArrayList<>();
             this.interchangeObjectsMap.put(interchangeObject.getClass().getSimpleName(), list);
         }
         list.add(interchangeObject);
@@ -756,7 +756,7 @@ public final class HeaderPartition
 
         Map<Long, AudioChannelLabelSubDescriptor> audioChannelLabelSubDescriptorMap = new HashMap<>();
         subDescriptors.stream()
-                .map(e -> AudioChannelLabelSubDescriptor.class.cast(e))
+                .map(AudioChannelLabelSubDescriptor.class::cast)
                 .forEach(e -> audioChannelLabelSubDescriptorMap.put(e.getMCAChannelId() == null? Long.valueOf(1L) : e.getMCAChannelId(), e));
         return audioChannelLabelSubDescriptorMap;
     }
@@ -844,7 +844,7 @@ public final class HeaderPartition
             return this.getInterchangeObjects(AudioChannelLabelSubDescriptor.class);
         }
         else{
-            return new ArrayList<InterchangeObject>();
+            return new ArrayList<>();
         }
     }
 
@@ -999,7 +999,7 @@ public final class HeaderPartition
      */
     private boolean hasInterchangeObject(Class clazz){
         String simpleName = clazz.getSimpleName();
-        return  (this.interchangeObjectsMap.containsKey(simpleName) && (this.interchangeObjectsMap.get(simpleName) != null && this.interchangeObjectsMap.get(simpleName).size() > 0));
+        return  this.interchangeObjectsMap.containsKey(simpleName) && (this.interchangeObjectsMap.get(simpleName) != null && !this.interchangeObjectsMap.get(simpleName).isEmpty());
     }
 
     private List<InterchangeObject> getInterchangeObjects(Class clazz){
@@ -1018,7 +1018,7 @@ public final class HeaderPartition
      */
     private boolean hasInterchangeObjectBO(Class clazz){
         String simpleName = clazz.getSimpleName();
-        return  (this.interchangeObjectBOsMap.containsKey(simpleName) && (this.interchangeObjectBOsMap.get(simpleName) != null && this.interchangeObjectBOsMap.get(simpleName).size() > 0));
+        return  this.interchangeObjectBOsMap.containsKey(simpleName) && (this.interchangeObjectBOsMap.get(simpleName) != null && !this.interchangeObjectBOsMap.get(simpleName).isEmpty());
     }
 
     private List<InterchangeObject.InterchangeObjectBO> getInterchangeObjectBOs(Class clazz){
@@ -1042,7 +1042,7 @@ public final class HeaderPartition
             clazz = CDCIPictureEssenceDescriptor.CDCIPictureEssenceDescriptorBO.class;
         }
         List<InterchangeObject.InterchangeObjectBO> interchangeObjectBOList = this.getInterchangeObjectBOs(clazz);
-        if(interchangeObjectBOList.size() >0) {
+        if(!interchangeObjectBOList.isEmpty()) {
             GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO genericPictureEssenceDescriptorBO =
                     GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO.class.cast(interchangeObjectBOList.get(0));
             codingEquation = Colorimetry.CodingEquation.valueOf(genericPictureEssenceDescriptorBO.getCodingEquationsUL());
@@ -1061,7 +1061,7 @@ public final class HeaderPartition
             clazz = CDCIPictureEssenceDescriptor.CDCIPictureEssenceDescriptorBO.class;
         }
         List<InterchangeObject.InterchangeObjectBO> interchangeObjectBOList = this.getInterchangeObjectBOs(clazz);
-        if(interchangeObjectBOList.size() >0) {
+        if(!interchangeObjectBOList.isEmpty()) {
             GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO genericPictureEssenceDescriptorBO =
                     GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO.class.cast(interchangeObjectBOList.get(0));
             transferCharacteristic = Colorimetry.TransferCharacteristic.valueOf(genericPictureEssenceDescriptorBO.getTransferCharacteristicUL());
@@ -1080,7 +1080,7 @@ public final class HeaderPartition
             clazz = CDCIPictureEssenceDescriptor.CDCIPictureEssenceDescriptorBO.class;
         }
         List<InterchangeObject.InterchangeObjectBO> interchangeObjectBOList = this.getInterchangeObjectBOs(clazz);
-        if(interchangeObjectBOList.size() >0) {
+        if(!interchangeObjectBOList.isEmpty()) {
             GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO genericPictureEssenceDescriptorBO =
                     GenericPictureEssenceDescriptor.GenericPictureEssenceDescriptorBO.class.cast(interchangeObjectBOList.get(0));
             colorPrimaries = Colorimetry.ColorPrimaries.valueOf(genericPictureEssenceDescriptorBO.getColorPrimariesUL());
@@ -1234,7 +1234,7 @@ public final class HeaderPartition
         return unmarkedNode;
     }
 
-    private static class Node
+    private static final class Node
     {
         private final MXFUID uid;
         private final List<Node> depends;
@@ -1248,7 +1248,7 @@ public final class HeaderPartition
         }
     }
 
-    private static enum Mark
+    private enum Mark
     {
         /**
          * The NONE.
@@ -1290,7 +1290,7 @@ public final class HeaderPartition
             }
         }
 
-        if (essenceTypes.size() == 0){
+        if (essenceTypes.isEmpty()){
             List<EssenceTypeEnum> essenceTypeList = new ArrayList<>();
             essenceTypeList.add(EssenceTypeEnum.UnsupportedEssence);
             return Collections.unmodifiableList(essenceTypeList);
@@ -1491,9 +1491,13 @@ public final class HeaderPartition
                         }
                     }
                 }
-                if (sid != -1) break;
+                if (sid != -1) {
+                    break;
+                }
             }
-            if (sid != -1) break;
+            if (sid != -1) {
+                break;
+            }
         }
         return sid;
     }

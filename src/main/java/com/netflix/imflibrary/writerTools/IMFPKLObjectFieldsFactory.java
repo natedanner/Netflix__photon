@@ -35,9 +35,9 @@ public final class IMFPKLObjectFieldsFactory {
      * @return A 2007 schema compliant PackingListType object
      */
     public static org.smpte_ra.schemas._429_8._2007.pkl.PackingListType constructPackingListType_2007(){
-        org.smpte_ra.schemas._429_8._2007.pkl.PackingListType pklType_2007 = new org.smpte_ra.schemas._429_8._2007.pkl.PackingListType();
-        IMFDocumentsObjectFieldsFactory.constructObjectFields(pklType_2007);
-        return pklType_2007;
+        org.smpte_ra.schemas._429_8._2007.pkl.PackingListType pklType2007 = new org.smpte_ra.schemas._429_8._2007.pkl.PackingListType();
+        IMFDocumentsObjectFieldsFactory.constructObjectFields(pklType2007);
+        return pklType2007;
     }
 
     /**
@@ -48,8 +48,8 @@ public final class IMFPKLObjectFieldsFactory {
      * @return A 2016 schema compliant PackingListType object
      */
     public static org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType constructPackingListType_2016(){
-        org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType pklType_2016 = new org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType();
-        IMFDocumentsObjectFieldsFactory.constructObjectFields(pklType_2016);
-        return pklType_2016;
+        org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType pklType2016 = new org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType();
+        IMFDocumentsObjectFieldsFactory.constructObjectFields(pklType2016);
+        return pklType2016;
     }
 }

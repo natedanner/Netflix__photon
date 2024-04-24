@@ -43,7 +43,7 @@ import java.util.*;
 /**
  * A class that provides utility methods to help with serializing an IMF CPL to an XML document
  */
-public class IMFUtils {
+public final class IMFUtils {
 
     /**
      * Private constructor to prevent instantiation
@@ -142,7 +142,7 @@ public class IMFUtils {
         try {
             MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
             long rangeStart = 0;
-            long rangeEnd = (rangeStart + 1023 > resourceByteRangeProvider.getResourceSize() - 1)
+            long rangeEnd = rangeStart + 1023 > resourceByteRangeProvider.getResourceSize() - 1
                     ? resourceByteRangeProvider.getResourceSize() - 1
                     : rangeStart + 1023;
 
@@ -154,7 +154,7 @@ public class IMFUtils {
                 nread = (int) (rangeEnd - rangeStart + 1);
                 md.update(dataBytes, 0, nread);
                 rangeStart = rangeEnd + 1;
-                rangeEnd = (rangeStart + 1023 > resourceByteRangeProvider.getResourceSize() - 1)
+                rangeEnd = rangeStart + 1023 > resourceByteRangeProvider.getResourceSize() - 1
                         ? resourceByteRangeProvider.getResourceSize() - 1
                         : rangeStart + 1023;
             }

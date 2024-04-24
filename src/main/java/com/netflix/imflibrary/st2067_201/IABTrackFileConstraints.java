@@ -56,7 +56,7 @@ public final class IABTrackFileConstraints {
                                 String.format("Preface in the IMFTrackFile represented by ID %s does not have the required conformsToSpecifications item.", packageID.toString()));
                     } else {
                         List specificationsULs = conformsToSpecifications.getEntries();
-                        if (specificationsULs.size() == 0) {
+                        if (specificationsULs.isEmpty()) {
                             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, IMF_IAB_EXCEPTION_PREFIX +
                                     String.format("Preface in the IMFTrackFile represented by ID %s does not have a single UL in the conformsToSpecifications item.", packageID.toString()));
                         } else if (!specificationsULs.contains(IABEssenceDescriptor.IMF_IAB_TRACK_FILE_LEVEL0_UL)) {
@@ -113,24 +113,24 @@ public final class IABTrackFileConstraints {
 
                     List<InterchangeObject.InterchangeObjectBO> subDescriptors = headerPartition.getSubDescriptors();
                     // Section 5.10.2
-                    if (subDescriptors.size() == 0) {
+                    if (subDescriptors.isEmpty()) {
                         imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, IMF_IAB_EXCEPTION_PREFIX +
                                 String.format("IABEssenceDescriptor in the IMFTrackFile represented by ID %s does not have subdescriptors", packageID.toString()));
                     } else {
                         List<InterchangeObject.InterchangeObjectBO> soundFieldGroupLabelSubDescriptors = subDescriptors.subList(0, subDescriptors.size()).stream().filter(interchangeObjectBO -> interchangeObjectBO.getClass().getEnclosingClass().equals(SoundFieldGroupLabelSubDescriptor.class)).collect(Collectors.toList());
-                        if (soundFieldGroupLabelSubDescriptors.size() != 0) {
+                        if (!soundFieldGroupLabelSubDescriptors.isEmpty()) {
                             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, IMF_IAB_EXCEPTION_PREFIX +
                                     String.format("IABEssenceDescriptor in the IMFTrackFile represented by ID %s has %d illegal SoundFieldGroupLabelSubDescriptor(s)", packageID.toString(), soundFieldGroupLabelSubDescriptors.size()));
                         }
 
                         List<InterchangeObject.InterchangeObjectBO> audioChannelLabelSubDescriptors = subDescriptors.subList(0, subDescriptors.size()).stream().filter(interchangeObjectBO -> interchangeObjectBO.getClass().getEnclosingClass().equals(AudioChannelLabelSubDescriptor.class)).collect(Collectors.toList());
-                        if (audioChannelLabelSubDescriptors.size() != 0) {
+                        if (!audioChannelLabelSubDescriptors.isEmpty()) {
                             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, IMF_IAB_EXCEPTION_PREFIX +
                                     String.format("IABEssenceDescriptor in the IMFTrackFile represented by ID %s has %d illegal AudioChannelLabelSubDescriptor(s)", packageID.toString(), audioChannelLabelSubDescriptors.size()));
                         }
 
                         List<InterchangeObject.InterchangeObjectBO> groupOfSoundfieldGroupsLabelSubDescriptors = subDescriptors.subList(0, subDescriptors.size()).stream().filter(interchangeObjectBO -> interchangeObjectBO.getClass().getEnclosingClass().equals(GroupOfSoundFieldGroupLabelSubDescriptor.class)).collect(Collectors.toList());
-                        if (groupOfSoundfieldGroupsLabelSubDescriptors.size() != 0) {
+                        if (!groupOfSoundfieldGroupsLabelSubDescriptors.isEmpty()) {
                             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, IMF_IAB_EXCEPTION_PREFIX +
                                     String.format("IABEssenceDescriptor in the IMFTrackFile represented by ID %s has %d illegal GroupOfSoundFieldGroupLabelSubDescriptor(s)", packageID.toString(), groupOfSoundfieldGroupsLabelSubDescriptors.size()));
                         }

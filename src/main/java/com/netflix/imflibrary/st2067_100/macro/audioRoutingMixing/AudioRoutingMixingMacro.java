@@ -32,7 +32,7 @@ public class AudioRoutingMixingMacro extends Macro {
     }
 
     public List<OutputAudioChannel> getOutputAudioChannelList() {
-        return this.getOutputs().stream().map(e -> (OutputAudioChannel)e).collect(Collectors.toList());
+        return this.getOutputs().stream().map(OutputAudioChannel.class::cast).collect(Collectors.toList());
     }
 
     private static List<Sequence> getInputs(List<? extends Sequence> outputAudioChannelList) {

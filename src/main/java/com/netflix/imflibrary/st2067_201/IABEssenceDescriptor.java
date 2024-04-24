@@ -19,10 +19,10 @@ import java.util.Map;
 @Immutable
 public class IABEssenceDescriptor extends GenericSoundEssenceDescriptor {
 
-    final static UL IMF_IAB_TRACK_FILE_LEVEL0_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.0401010D.01010201.02000000");
-    public final static UL IMMERSIVE_AUDIO_CODING_LABEL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.04010105.0E090604.00000000");
-    public final static UL IMF_IAB_ESSENCE_CLIP_WRAPPED_ELEMENT_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.01020101.0D010301.16000D00");
-    public final static UL IMF_IAB_ESSENCE_CLIP_WRAPPED_CONTAINER_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.0401010D.0D010301.021D0101");
+    static final UL IMF_IAB_TRACK_FILE_LEVEL0_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.0401010D.01010201.02000000");
+    public static final UL IMMERSIVE_AUDIO_CODING_LABEL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.04010105.0E090604.00000000");
+    public static final UL IMF_IAB_ESSENCE_CLIP_WRAPPED_ELEMENT_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.01020101.0D010301.16000D00");
+    public static final UL IMF_IAB_ESSENCE_CLIP_WRAPPED_CONTAINER_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060E2B34.0401010D.0D010301.021D0101");
 
     public IABEssenceDescriptor(IABEssenceDescriptorBO iabEssenceDescriptorBO)
     {

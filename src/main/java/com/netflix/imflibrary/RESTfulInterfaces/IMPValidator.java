@@ -153,7 +153,7 @@ public class IMPValidator {
             assetMapObjectModel = new AssetMap(assetMapByteRangeProvider);
             imfErrorLogger.addAllErrors(assetMapObjectModel.getErrors());
 
-            if(assetMapObjectModel.getPackingListAssets().size() == 0){
+            if(assetMapObjectModel.getPackingListAssets().isEmpty()){
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_AM_ERROR, IMFErrorLogger.IMFErrors
                         .ErrorLevels.FATAL, String.format("Asset map should reference atleast one PackingList, %d " +
                         "references found", assetMapObjectModel.getPackingListAssets().size()));
@@ -175,7 +175,7 @@ public class IMPValidator {
             }
         }
 
-        if(packingLists.size() == 0){
+        if(packingLists.isEmpty()){
             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_MASTER_PACKAGE_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, String.format("Atleast one PackingList is expected, %d were detected", packingLists.size()));
         }
 
@@ -381,8 +381,9 @@ public class IMPValidator {
 
         try {
             imfErrorLogger.addAllErrors(validateCPL(cplPayloadRecord));
-            if (imfErrorLogger.hasFatalErrors())
+            if (imfErrorLogger.hasFatalErrors()) {
                 return Collections.unmodifiableList(imfErrorLogger.getErrors());
+            }
 
             ApplicationComposition applicationComposition = ApplicationCompositionFactory.getApplicationComposition(new ByteArrayByteRangeProvider(cplPayloadRecord.getPayload()), imfErrorLogger);
             if(applicationComposition == null) {
@@ -712,9 +713,6 @@ public class IMPValidator {
                 }
             }
             catch (IMFException | MXFException e){
-                if(headerPartition != null) {
-
-                }
                 imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_ESSENCE_COMPONENT_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, String.format("IMFTrackFile with ID %s has fatal errors", packageUUID.toString())));
                 if(e instanceof IMFException){
                     IMFException imfException = (IMFException)e;
@@ -743,7 +741,7 @@ public class IMPValidator {
                 unreferencedResourceIDsSet.add(uuid);
             }
         }
-        if(unreferencedResourceIDsSet.size() > 0){
+        if(!unreferencedResourceIDsSet.isEmpty()){
             imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMP_VALIDATOR_PAYLOAD_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, String.format("It seems that no EssenceHeaderPartition data was passed in for " +
                     "VirtualTrack Resource Ids %s, please verify that the correct Header Partition payloads for the " +
                     "Virtual Track were passed in", Utilities.serializeObjectCollectionToString
@@ -759,7 +757,7 @@ public class IMPValidator {
                 unreferencedTrackFileIDsSet.add(uuid);
             }
         }
-        if(unreferencedTrackFileIDsSet.size() > 0){
+        if(!unreferencedTrackFileIDsSet.isEmpty()){
             imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMP_VALIDATOR_PAYLOAD_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, String.format("It seems that EssenceHeaderPartition data was passed in for " +
                     "Resource Ids %s which are not part of this virtual track, please verify that only the Header " +
                     "Partition payloads for the Virtual Track were passed in", Utilities
@@ -778,7 +776,7 @@ public class IMPValidator {
         return sb.toString();
     }
 
-    public static void main(String args[]) throws IOException, URISyntaxException, SAXException, JAXBException
+    public static void main(String[] args) throws IOException, URISyntaxException, SAXException, JAXBException
     {
         if (args.length != 3)
         {
@@ -786,7 +784,9 @@ public class IMPValidator {
             throw new IllegalArgumentException("Invalid parameters");
         }
         List<ErrorLogger.ErrorObject> errors = new ArrayList<>();
-        File assetMapFile=null, packingListFile=null, compositionPlaylistFile=null;
+        File assetMapFile = null;
+        File packingListFile = null;
+        File compositionPlaylistFile = null;
 
         for(String arg : args) {
             File inputFile = new File(arg);
@@ -831,7 +831,7 @@ public class IMPValidator {
             errors.addAll(IMPValidator.validatePKLAndAssetMap(assetMapPayloadRecord, packingListPayloadRecords));
         }
 
-        if(errors.size() > 0){
+        if(!errors.isEmpty()){
             long warningCount = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels
                     .WARNING)).count();
             logger.info(String.format("AssetMap has %d errors and %d warnings",

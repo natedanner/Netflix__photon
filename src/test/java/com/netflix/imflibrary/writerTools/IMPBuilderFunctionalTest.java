@@ -105,7 +105,7 @@ public class IMPBuilderFunctionalTest {
         File tempDir = tempPath.toFile();
 
         if(useHeaderPartition) {
-            if (schemaVersion.equals("2016")) {
+            if ("2016".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2016("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -113,7 +113,7 @@ public class IMPBuilderFunctionalTest {
                         Application2ExtendedComposition.SCHEMA_URI_APP2E_2016,
                         buildTrackFileMetadataMap(imfErrorLogger),
                         tempDir);
-            } else if (schemaVersion.equals("2020")) {
+            } else if ("2020".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2016("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -121,7 +121,7 @@ public class IMPBuilderFunctionalTest {
                         Application2ExtendedComposition.SCHEMA_URI_APP2E_2020,
                         buildTrackFileMetadataMap(imfErrorLogger),
                         tempDir);
-            } else if (schemaVersion.equals("2013")) {
+            } else if ("2013".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2013("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -131,7 +131,7 @@ public class IMPBuilderFunctionalTest {
                         tempDir);
             }
         } else {
-            if (schemaVersion.equals("2016")) {
+            if ("2016".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2016("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -140,7 +140,7 @@ public class IMPBuilderFunctionalTest {
                         buildTrackFileInfoMap(imfErrorLogger),
                         tempDir,
                         applicationComposition.getEssenceDescriptorDomNodeMap());
-            } else if (schemaVersion.equals("2020")) {
+            } else if ("2020".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2016("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -149,7 +149,7 @@ public class IMPBuilderFunctionalTest {
                         buildTrackFileInfoMap(imfErrorLogger),
                         tempDir,
                         applicationComposition.getEssenceDescriptorDomNodeMap());
-            } else if (schemaVersion.equals("2013")) {
+            } else if ("2013".equals(schemaVersion)) {
                 IMPBuilder.buildIMP_2013("IMP",
                         "Netflix",
                         applicationComposition.getVirtualTracks(),
@@ -182,9 +182,9 @@ public class IMPBuilderFunctionalTest {
                 cplFile = file;
             }
         }
-        Assert.assertTrue(assetMapFound == true);
-        Assert.assertTrue(pklFound == true);
-        Assert.assertTrue(cplFound == true);
+        Assert.assertTrue(assetMapFound);
+        Assert.assertTrue(pklFound);
+        Assert.assertTrue(cplFound);
 
         ResourceByteRangeProvider fileByteRangeProvider = new FileByteRangeProvider(assetMapFile);
         byte[] documentBytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);

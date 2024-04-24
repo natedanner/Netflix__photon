@@ -92,11 +92,11 @@ public class DOMNodeObjectModel {
                             Map<String, Integer> values = fields.get(domNodeElementTuple);
                             Map<String, Integer> fieldsLocalNameValues = fieldsLocalNameMap.get(domNodeElementTuple.getLocalName());
                             if (values == null) {
-                                values = new HashMap<String, Integer>();
+                                values = new HashMap<>();
                                 fields.put(domNodeElementTuple, values);
                             }
                             if(fieldsLocalNameValues == null){
-                                fieldsLocalNameValues = new HashMap<String, Integer>();
+                                fieldsLocalNameValues = new HashMap<>();
                                 fieldsLocalNameMap.put(domNodeElementTuple.getLocalName(), fieldsLocalNameValues);
                             }
                             Integer count = 0;
@@ -414,13 +414,9 @@ public class DOMNodeObjectModel {
         }
 
         DOMNodeObjectModel otherDOMNodeObjectModel = (DOMNodeObjectModel) other;
-
-        if(this.nodeType.equals(otherDOMNodeObjectModel.nodeType) &&
-            this.fields.equals(otherDOMNodeObjectModel.fields) &&
-            this.childrenDOMNodes.equals(otherDOMNodeObjectModel.childrenDOMNodes)) {
-            return true;
-        }
-        return false;
+        return this.nodeType.equals(otherDOMNodeObjectModel.nodeType) &&
+                this.fields.equals(otherDOMNodeObjectModel.fields) &&
+                this.childrenDOMNodes.equals(otherDOMNodeObjectModel.childrenDOMNodes);
     }
 
     /**
@@ -546,7 +542,7 @@ public class DOMNodeObjectModel {
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("<%s xmlns=\"%s\">", this.localName, this.localNamespaceURI)+"\n");
+        sb.append(String.format("<%s xmlns=\"%s\">", this.localName, this.localNamespaceURI) + "\n");
         for(Map.Entry<DOMNodeElementTuple, Map<String, Integer>> entry : fields.entrySet()){
             Map<String, Integer> values = (Map<String, Integer>)entry.getValue();
             Iterator<Map.Entry<String, Integer>> iterator = values.entrySet().iterator();
@@ -613,11 +609,12 @@ public class DOMNodeObjectModel {
      */
     public DOMNodeObjectModel getDOMNode(String name) {
         List<DOMNodeObjectModel> domNodeObjectModelList = getDOMNodes(name);
-        if(domNodeObjectModelList.size() > 0) {
+        if(!domNodeObjectModelList.isEmpty()) {
             return domNodeObjectModelList.get(0);
         }
-        else
+        else {
             return null;
+        }
     }
 
     /**
@@ -649,8 +646,9 @@ public class DOMNodeObjectModel {
     public UL getFieldAsUL(String name) {
         String value = getFieldAsString(name);
         try {
-            if(value != null)
-            return UL.fromULAsURNStringToUL(value);
+            if (value != null) {
+                return UL.fromULAsURNStringToUL(value);
+            }
         }
         catch(Exception e) {
             return null;
@@ -667,8 +665,9 @@ public class DOMNodeObjectModel {
     public Long getFieldAsLong(String name) {
         String value = getFieldAsString(name);
         try {
-            if(value != null)
+            if (value != null) {
                 return Long.valueOf(value);
+            }
         }
         catch(Exception e) {
             return null;
@@ -685,8 +684,9 @@ public class DOMNodeObjectModel {
     public Integer getFieldAsInteger(String name) {
         String value = getFieldAsString(name);
         try {
-            if(value != null)
+            if (value != null) {
                 return Integer.valueOf(value);
+            }
         }
         catch(Exception e) {
             return null;
@@ -703,8 +703,9 @@ public class DOMNodeObjectModel {
     public  Fraction getFieldAsFraction(String name) {
         String value = getFieldAsString(name);
         try {
-            if(value != null)
+            if (value != null) {
                 return Fraction.valueOf(value);
+            }
         }
         catch(Exception e) {
             return null;
@@ -724,17 +725,17 @@ public class DOMNodeObjectModel {
         return values;
     }
 
+
     /**
      * A method to obtain set of String values for a field within DOMNodeObjectModel
      * @param name the LocalName for the field
      * @return Returns a set of field values
      */
-    @Nullable
     void getFieldsAsStringRecursive(Set<String> values, String name) {
         try {
             Set<String> matchingValues = this.getFields().entrySet().stream().filter(e -> e.getKey().getLocalName().equals(name)).map(Map.Entry::getValue).map(Map::keySet).flatMap(Set::stream).collect(Collectors.toSet());
             values.addAll(matchingValues);
-            for(DOMNodeObjectModel domNodeObjectModel:  this.getChildrenDOMNodes().keySet()) {
+            for (DOMNodeObjectModel domNodeObjectModel :  this.getChildrenDOMNodes().keySet()) {
                 domNodeObjectModel.getFieldsAsStringRecursive(values, name);
             }
             return;
@@ -789,7 +790,7 @@ public class DOMNodeObjectModel {
     /**
      * A thin class modeling a DOM Node Element Key
      */
-    public static class DOMNodeElementTuple {
+    public static final class DOMNodeElementTuple {
         private final String localName;
         private final String namespaceURI;
 

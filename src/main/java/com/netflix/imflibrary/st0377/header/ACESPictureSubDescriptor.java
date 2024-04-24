@@ -106,20 +106,20 @@ public final class ACESPictureSubDescriptor extends SubDescriptor {
                     this.instance_uid[8], this.instance_uid[9], this.instance_uid[10], this.instance_uid[11],
                     this.instance_uid[12], this.instance_uid[13], this.instance_uid[14], this.instance_uid[15]));
             sb.append(String.format("aces_authoring_information = %s", this.aces_authoring_information));
-            String aces_mastering_display_primariesString = "";
+            String acesMasteringDisplayPrimariesString = "";
             if (aces_mastering_display_primaries != null) {
                 for(byte b: aces_mastering_display_primaries){
-                    aces_mastering_display_primariesString = aces_mastering_display_primariesString.concat(String.format("%02x", b));
+                    acesMasteringDisplayPrimariesString = acesMasteringDisplayPrimariesString.concat(String.format("%02x", b));
                 }
             }
-            sb.append(String.format("aces_mastering_display_primaries = %s", aces_mastering_display_primariesString));
-            String aces_mastering_whiteString = "";
+            sb.append(String.format("aces_mastering_display_primaries = %s", acesMasteringDisplayPrimariesString));
+            String acesMasteringWhiteString = "";
             if (aces_mastering_white != null) {
                 for(byte b: aces_mastering_white){
-                    aces_mastering_whiteString = aces_mastering_whiteString.concat(String.format("%02x", b));
+                    acesMasteringWhiteString = acesMasteringWhiteString.concat(String.format("%02x", b));
                 }
             }
-            sb.append(String.format("aces_mastering_whiteString = %s", aces_mastering_whiteString));
+            sb.append(String.format("aces_mastering_whiteString = %s", acesMasteringWhiteString));
             sb.append(String.format("aces_max_luminance = %d", this.aces_max_luminance));
             sb.append(String.format("aces_min_luminance = %d", this.aces_min_luminance));
             return sb.toString();

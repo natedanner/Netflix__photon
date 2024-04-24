@@ -136,8 +136,9 @@ public class UL {
     public boolean equalsWithMask(UL ul, int byteMask) {
 
         for (int i = 0; i < 16; i++) {
-            if ((byteMask & 0x8000) != 0 && this.ul[i] != ul.ul[i])
+            if ((byteMask & 0x8000) != 0 && this.ul[i] != ul.ul[i]) {
                 return false;
+            }
 
             byteMask = byteMask << 1;
         }
@@ -163,8 +164,9 @@ public class UL {
      * @return  true if the objects are the same; false otherwise
      */
     public boolean equals(Object other) {
-        if ((null == other) || (other.getClass() != this.getClass()))
+        if ((null == other) || (other.getClass() != this.getClass())) {
             return false;
+        }
         UL id = (UL)other;
         return Arrays.equals(this.ul, id.getULAsBytes());
     }

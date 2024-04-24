@@ -74,8 +74,9 @@ final class CompositionModel_st2067_2_2016 {
             coreConstraintsSchema = CoreConstraints.fromElementNamespaces(sequenceNamespaces);
 
             // If all else fails, assume the minimum version applicable to this CPL version
-            if (coreConstraintsSchema == null)
+            if (coreConstraintsSchema == null) {
                 coreConstraintsSchema = CoreConstraints.NAMESPACE_IMF_2016;
+            }
         }
 
         return new IMFCompositionPlaylistType( compositionPlaylistType.getId(),
@@ -130,12 +131,13 @@ final class CompositionModel_st2067_2_2016 {
     // Parse the list of ApplicationIdentification values
     @Nonnull private static Set<String> parseApplicationIds(@Nonnull org.smpte_ra.schemas._2067_3._2016.CompositionPlaylistType compositionPlaylistType, @Nonnull IMFErrorLogger imfErrorLogger)
     {
-        if (compositionPlaylistType.getExtensionProperties() == null)
+        if (compositionPlaylistType.getExtensionProperties() == null) {
             return Collections.emptySet();
+        }
 
         return compositionPlaylistType.getExtensionProperties().getAny().stream()
                 .filter(JAXBElement.class::isInstance).map(JAXBElement.class::cast)
-                .filter(extProp -> extProp.getName().getLocalPart().equals("ApplicationIdentification")).map(JAXBElement::getValue)
+                .filter(extProp -> "ApplicationIdentification".equals(extProp.getName().getLocalPart())).map(JAXBElement::getValue)
                 .filter(List.class::isInstance).map(appIdList -> (List<?>) appIdList)
                 .findAny().orElse(Collections.emptyList()).stream().map(Object::toString).collect(Collectors.toSet());
     }
@@ -151,7 +153,7 @@ final class CompositionModel_st2067_2_2016 {
     // Into a canonical, version-independent, instance of IMFSegmentType
     @Nonnull private static IMFSegmentType parseSegment(@Nonnull org.smpte_ra.schemas._2067_3._2016.SegmentType segment, @Nonnull List<Long> cplEditRate, @Nonnull IMFErrorLogger imfErrorLogger)
     {
-        List<IMFSequenceType> sequenceList = new ArrayList<IMFSequenceType>();
+        List<IMFSequenceType> sequenceList = new ArrayList<>();
 
         // Parse the Marker Sequence
         org.smpte_ra.schemas._2067_3._2016.SequenceType markerSequence = segment.getSequenceList().getMarkerSequence();
@@ -259,7 +261,7 @@ final class CompositionModel_st2067_2_2016 {
                                                                    @Nonnull List<Long> cplEditRate, @Nonnull IMFErrorLogger imfErrorLogger)
     {
         // Parse each Marker within the MarkerResource
-        List<IMFMarkerType> markerList = new ArrayList<IMFMarkerType>();
+        List<IMFMarkerType> markerList = new ArrayList<>();
         for (org.smpte_ra.schemas._2067_3._2016.MarkerType marker : markerResource.getMarker()) {
             markerList.add(new IMFMarkerType(marker.getAnnotation() == null ? null : marker
                     .getAnnotation().getValue(),
@@ -269,7 +271,7 @@ final class CompositionModel_st2067_2_2016 {
 
         return new IMFMarkerResourceType(
                 markerResource.getId(),
-                markerResource.getEditRate().size() != 0 ? markerResource.getEditRate() : cplEditRate,
+                markerResource.getEditRate().isEmpty() ? cplEditRate : markerResource.getEditRate(),
                 markerResource.getIntrinsicDuration(),
                 markerResource.getEntryPoint(),
                 markerResource.getSourceDuration(),
@@ -285,7 +287,7 @@ final class CompositionModel_st2067_2_2016 {
         return new IMFTrackFileResourceType(
                 trackFileResource.getId(),
                 trackFileResource.getTrackFileId(),
-                trackFileResource.getEditRate().size() != 0 ? trackFileResource.getEditRate() : cplEditRate,
+                trackFileResource.getEditRate().isEmpty() ? cplEditRate : trackFileResource.getEditRate(),
                 trackFileResource.getIntrinsicDuration(),
                 trackFileResource.getEntryPoint(),
                 trackFileResource.getSourceDuration(),
@@ -327,21 +329,21 @@ final class CompositionModel_st2067_2_2016 {
         {
             // Load all XSD schemas required to validate a CompositionPlaylist document
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-            try (InputStream xsd_xmldsig_core = contextClassLoader.getResourceAsStream("org/w3/_2000_09/xmldsig/xmldsig-core-schema.xsd");
-                 InputStream xsd_dcmlTypes = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st0433_2008/dcmlTypes/dcmlTypes.xsd");
-                 InputStream xsd_cpl_2016 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_3_2016/imf-cpl-20160411.xsd");
-                 InputStream xsd_core_constraints_2016 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2016/imf-core-constraints-20160411.xsd");
-                 InputStream xsd_core_constraints_2020 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2020/imf-core-constraints-2020.xsd")
+            try (InputStream xsdXmldsigCore = contextClassLoader.getResourceAsStream("org/w3/_2000_09/xmldsig/xmldsig-core-schema.xsd");
+                 InputStream xsdDcmlTypes = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st0433_2008/dcmlTypes/dcmlTypes.xsd");
+                 InputStream xsdCpl2016 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_3_2016/imf-cpl-20160411.xsd");
+                 InputStream xsdCoreConstraints2016 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2016/imf-core-constraints-20160411.xsd");
+                 InputStream xsdCoreConstraints2020 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2020/imf-core-constraints-2020.xsd")
             )
             {
                 // Build a schema from all of the XSD files provided
                 SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 return schemaFactory.newSchema(new StreamSource[]{
-                        new StreamSource(xsd_xmldsig_core),
-                        new StreamSource(xsd_dcmlTypes),
-                        new StreamSource(xsd_cpl_2016),
-                        new StreamSource(xsd_core_constraints_2016),
-                        new StreamSource(xsd_core_constraints_2020),
+                        new StreamSource(xsdXmldsigCore),
+                        new StreamSource(xsdDcmlTypes),
+                        new StreamSource(xsdCpl2016),
+                        new StreamSource(xsdCoreConstraints2016),
+                        new StreamSource(xsdCoreConstraints2020),
                 });
             }
             catch(IOException | SAXException e)

@@ -44,7 +44,7 @@ public final class WaveAudioEssenceDescriptor extends GenericSoundEssenceDescrip
     }
 
     public WaveAudioEssenceDescriptorBO getWaveAudioEssenceDescriptorBO() {
-        return ((WaveAudioEssenceDescriptorBO)this.genericSoundEssenceDescriptorBO);
+        return (WaveAudioEssenceDescriptorBO)this.genericSoundEssenceDescriptorBO;
     }
 
     /**
@@ -171,7 +171,9 @@ public final class WaveAudioEssenceDescriptor extends GenericSoundEssenceDescrip
             }
 
             boolean genericEqual = super.equals(other);
-            if (!genericEqual) return false;
+            if (!genericEqual) {
+                return false;
+            }
 
             WaveAudioEssenceDescriptorBO otherObject = (WaveAudioEssenceDescriptorBO)other;
             return !((this.block_align == null) || (!this.block_align.equals(otherObject.block_align)));

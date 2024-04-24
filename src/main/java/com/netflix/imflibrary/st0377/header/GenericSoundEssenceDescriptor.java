@@ -166,7 +166,7 @@ public abstract class GenericSoundEssenceDescriptor extends FileDescriptor{
         return this.genericSoundEssenceDescriptorBO.getEssenceContainerUL();
     }
 
-    public static abstract class GenericSoundEssenceDescriptorBO extends FileDescriptorBO{
+    public abstract static class GenericSoundEssenceDescriptorBO extends FileDescriptorBO{
 
         @MXFProperty(size=0) protected final CompoundDataTypes.Rational audio_sampling_rate = null;
         @MXFProperty(size=4) protected final Long channelcount = null;
@@ -274,12 +274,7 @@ public abstract class GenericSoundEssenceDescriptor extends FileDescriptor{
                 return false;
             }
 
-            if ((this.quantization_bits == null) || (!this.quantization_bits.equals(otherObject.quantization_bits)))
-            {
-                return false;
-            }
-
-            return true;
+            return !((this.quantization_bits == null) || (!this.quantization_bits.equals(otherObject.quantization_bits)));
         }
 
         /**

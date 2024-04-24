@@ -28,7 +28,7 @@ public abstract class SubDescriptor extends InterchangeObject {
     /**
      * Object corresponding to a parsed Subdescriptor structural metadata set defined in st377-1:2011
      */
-    public static abstract class SubDescriptorBO extends InterchangeObjectBO {
+    public abstract static class SubDescriptorBO extends InterchangeObjectBO {
 
         /**
          * Constructor for a Sub descriptor ByteObject.

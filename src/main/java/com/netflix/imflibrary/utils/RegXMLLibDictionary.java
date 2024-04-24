@@ -130,8 +130,8 @@ public final class RegXMLLibDictionary {
             return null;
         } else if (definition instanceof EnumerationTypeDefinition) {
             EnumerationTypeDefinition enumerationTypeDefinition = EnumerationTypeDefinition.class.cast(definition);
-            List<Integer> enumList = enumerationTypeDefinition.getElements().stream().filter(e -> e.getName().equals(name)).map(e -> e.getValue()).collect(Collectors.toList());
-            enumValue = (enumList.size() > 0)  ? enumList.get(0) : null;
+            List<Integer> enumList = enumerationTypeDefinition.getElements().stream().filter(e -> e.getName().equals(name)).map(EnumerationTypeDefinition.Element::getValue).collect(Collectors.toList());
+            enumValue = !enumList.isEmpty()  ? enumList.get(0) : null;
         }
         return enumValue;
     }
@@ -150,8 +150,8 @@ public final class RegXMLLibDictionary {
             return null;
         } else if (definition instanceof RecordTypeDefinition) {
             RecordTypeDefinition recordTypeDefinition = RecordTypeDefinition.class.cast(definition);
-            List<String> enumList = recordTypeDefinition.getMembers().stream().filter(e -> e.getType().equals(AUID.fromURN(fieldURN))).map(e -> e.getName()).collect(Collectors.toList());
-            fieldName = (enumList.size() > 0)  ? enumList.get(0) : null;
+            List<String> enumList = recordTypeDefinition.getMembers().stream().filter(e -> e.getType().equals(AUID.fromURN(fieldURN))).map(RecordTypeDefinition.Member::getName).collect(Collectors.toList());
+            fieldName = !enumList.isEmpty()  ? enumList.get(0) : null;
         }
         return fieldName;
     }

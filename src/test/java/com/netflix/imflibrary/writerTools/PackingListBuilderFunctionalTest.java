@@ -63,14 +63,14 @@ public class PackingListBuilderFunctionalTest {
         for(PackingList.Asset asset : assets){
             org.smpte_ra.schemas._429_8._2007.pkl.UserText annotationText = PackingListBuilder.buildPKLUserTextType_2007("Netflix", "en");
             org.smpte_ra.schemas._429_8._2007.pkl.UserText originalFileName = PackingListBuilder.buildPKLUserTextType_2007(asset.getOriginalFilename(), "en");
-            PackingListBuilder.PackingListBuilderAsset_2007 asset_2007 =
+            PackingListBuilder.PackingListBuilderAsset_2007 asset2007 =
                     new PackingListBuilder.PackingListBuilderAsset_2007(asset.getUUID(),
                                                                         annotationText,
                                                                         asset.getHash(),
                                                                         asset.getSize(),
                                                                         PackingListBuilder.PKLAssetTypeEnum.getAssetTypeEnum(asset.getType()),
                                                                         originalFileName);
-            packingListBuilderAssets.add(asset_2007);
+            packingListBuilderAssets.add(asset2007);
         }
 
         /**
@@ -88,7 +88,7 @@ public class PackingListBuilderFunctionalTest {
         new PackingListBuilder(packingList.getUUID(), issueDate, tempDir, packingListBuilderErrorLogger).buildPackingList_2007(annotationText, issuer, creator, packingListBuilderAssets);
 
         imfErrorLogger.addAllErrors(packingList.getErrors());
-        if(imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()).size() > 0){
+        if(!imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()).isEmpty()){
             throw new IMFAuthoringException(String.format("Fatal errors occurred while generating the PackingList. Please see following error messages %s", Utilities.serializeObjectCollectionToString(imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()))));
         }
 
@@ -128,7 +128,7 @@ public class PackingListBuilderFunctionalTest {
             org.smpte_ra.schemas._2067_2._2016.pkl.UserText originalFileName = PackingListBuilder.buildPKLUserTextType_2016(asset.getOriginalFilename(), "en");
             org.w3._2000._09.xmldsig_.DigestMethodType hashAlgorithm = new org.w3._2000._09.xmldsig_.DigestMethodType();
             hashAlgorithm.setAlgorithm(asset.getHashAlgorithm());
-            PackingListBuilder.PackingListBuilderAsset_2016 asset_2016 =
+            PackingListBuilder.PackingListBuilderAsset_2016 asset2016 =
                     new PackingListBuilder.PackingListBuilderAsset_2016(asset.getUUID(),
                             annotationText,
                             asset.getHash(),
@@ -136,7 +136,7 @@ public class PackingListBuilderFunctionalTest {
                             asset.getSize(),
                             PackingListBuilder.PKLAssetTypeEnum.getAssetTypeEnum(asset.getType()),
                             originalFileName);
-            packingListBuilderAssets.add(asset_2016);
+            packingListBuilderAssets.add(asset2016);
         }
 
         /**
@@ -152,7 +152,7 @@ public class PackingListBuilderFunctionalTest {
         org.smpte_ra.schemas._2067_2._2016.pkl.UserText issuer = PackingListBuilder.buildPKLUserTextType_2016("Netflix", "en");
         new PackingListBuilder(packingList.getUUID(), issueDate, tempDir, packingListBuilderErrorLogger).buildPackingList_2016(annotationText, issuer, creator, packingListBuilderAssets);
 
-        if(imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()).size() > 0){
+        if(!imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()).isEmpty()){
             throw new IMFAuthoringException(String.format("Fatal errors occurred while generating the PackingList. Please see following error messages %s", Utilities.serializeObjectCollectionToString(imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, 0, imfErrorLogger.getNumberOfErrors()))));
         }
 
@@ -169,7 +169,7 @@ public class PackingListBuilderFunctionalTest {
 
         resourceByteRangeProvider = new FileByteRangeProvider(pklOutputFile);
         List<ErrorLogger.ErrorObject> pklValidationErrors = IMPValidator.validatePKL(new PayloadRecord(resourceByteRangeProvider.getByteRangeAsBytes(0, pklOutputFile.length()-1), PayloadRecord.PayloadAssetType.PackingList, 0L, 0L));
-        Assert.assertTrue(pklValidationErrors.size() == 0);
+        Assert.assertTrue(pklValidationErrors.isEmpty());
 
         //Destroy the temporary working directory
         tempDir.delete();

@@ -61,7 +61,7 @@ public class PackingListBuilder {
     private final String groupId;
     private final File workingDirectory;
     private final IMFErrorLogger imfErrorLogger;
-    public final static String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
+    public static final String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
     private final String pklFileName;
 
     /**
@@ -204,7 +204,7 @@ public class PackingListBuilder {
         try(
                 InputStream packingListSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st0429_8_2007/PKL/packingList_schema.xsd");
                 InputStream dsigSchemaAsAStream = contextClassLoader.getResourceAsStream("org/w3/_2000_09/xmldsig/xmldsig-core-schema.xsd");
-                OutputStream outputStream = new FileOutputStream(outputFile);
+                OutputStream outputStream = new FileOutputStream(outputFile)
         )
         {
             try
@@ -352,7 +352,7 @@ public class PackingListBuilder {
         return this.pklFileName;
     }
 
-    public static enum PKLAssetTypeEnum {
+    public enum PKLAssetTypeEnum {
         TEXT_XML("text/xml"),
         APP_MXF("application/mxf"),
         UNDEFINED("Undefined");
@@ -446,7 +446,7 @@ public class PackingListBuilder {
         try(
                 InputStream packingListSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2016/PKL/packingList_schema.xsd");
                 InputStream dsigSchemaAsAStream = contextClassLoader.getResourceAsStream("org/w3/_2000_09/xmldsig/xmldsig-core-schema.xsd");
-                OutputStream outputStream = new FileOutputStream(outputFile);
+                OutputStream outputStream = new FileOutputStream(outputFile)
         )
         {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI );
@@ -469,7 +469,6 @@ public class PackingListBuilder {
             as found at https://weblogs.java.net/blog/2006/03/03/why-does-jaxb-put-xmlrootelement-sometimes-not-always
              */
             marshaller.marshal(new JAXBElement<>(new QName("http://www.smpte-ra.org/schemas/2067-2/2016/PKL", "PackingList"), org.smpte_ra.schemas._2067_2._2016.pkl.PackingListType.class, packingListType), outputStream);
-            outputStream.close();
 
             if(validationEventHandler.hasErrors())
             {
@@ -482,7 +481,7 @@ public class PackingListBuilder {
 
         if(this.imfErrorLogger.getNumberOfErrors() > numErrors){
             List<ErrorLogger.ErrorObject> fatalErrors = imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, numErrors, this.imfErrorLogger.getNumberOfErrors());
-            if(fatalErrors.size() > 0){
+            if(!fatalErrors.isEmpty()){
                 throw new IMFAuthoringException(String.format("Following FATAL errors were detected while building the PackingList document %s", fatalErrors.toString()));
             }
         }

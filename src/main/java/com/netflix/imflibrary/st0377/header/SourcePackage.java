@@ -81,7 +81,7 @@ public final class SourcePackage extends GenericPackage
      */
     public List<MXFUID> getTrackInstanceUIDs()
     {
-        List<MXFUID> trackInstanceUIDs = new ArrayList<MXFUID>();
+        List<MXFUID> trackInstanceUIDs = new ArrayList<>();
         for (InterchangeObjectBO.StrongRef strongRef : this.sourcePackageBO.tracks.getEntries())
         {
             trackInstanceUIDs.add(strongRef.getInstanceUID());

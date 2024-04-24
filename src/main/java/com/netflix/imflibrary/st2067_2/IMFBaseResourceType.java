@@ -57,9 +57,9 @@ public abstract class IMFBaseResourceType {
 
         this.editRate = rate;
         this.intrinsicDuration = intrinsicDuration;
-        this.entryPoint = (entryPoint != null)? entryPoint: BigInteger.ZERO;
-        this.sourceDuration = (sourceDuration != null) ? sourceDuration: this.intrinsicDuration.subtract(this.entryPoint);
-        this.repeatCount = (repeatCount != null)? repeatCount: BigInteger.ONE;
+        this.entryPoint = entryPoint != null? entryPoint: BigInteger.ZERO;
+        this.sourceDuration = sourceDuration != null ? sourceDuration: this.intrinsicDuration.subtract(this.entryPoint);
+        this.repeatCount = repeatCount != null? repeatCount: BigInteger.ONE;
 
         if(imfErrorLogger.hasFatalErrors())
         {

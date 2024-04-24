@@ -38,7 +38,7 @@ public class Fraction {
     public static Fraction valueOf(String s)
     {
         try {
-            String values[] = s.split("(\\s|/)");
+            String[] values = s.split("(\\s|/)");
             if (values.length == 2) {
                 return new Fraction(Integer.valueOf(values[0]), Integer.valueOf(values[1]));
             }
@@ -85,8 +85,8 @@ public class Fraction {
         }
 
         Fraction otherObject = (Fraction)other;
-        return (this.numerator.equals(otherObject.getNumerator()) &&
-                this.denominator.equals(otherObject.getDenominator()));
+        return this.numerator.equals(otherObject.getNumerator()) &&
+                this.denominator.equals(otherObject.getDenominator());
     }
 
     /**

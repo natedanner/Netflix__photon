@@ -83,31 +83,37 @@ public final class IMFDocumentsObjectFieldsFactory {
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 // Skip synthetic fields. They don't need to be recreated
-                if (field.isSynthetic())
+                if (field.isSynthetic()) {
                     continue;
+                }
 
                 Class<?> fieldType = field.getType();
 
                 // No need to construct primitive types (int, boolean, ...)
-                if (setOfPrimitiveTypes.contains(fieldType))
+                if (setOfPrimitiveTypes.contains(fieldType)) {
                     continue;
+                }
 
                 // No need to construct wrapper types (Integer, Long, Enum, ...)
-                if (setOfWrapperTypes.contains(fieldType))
+                if (setOfWrapperTypes.contains(fieldType)) {
                     continue;
+                }
 
                 // No need to construct String, because it is immutable and will be set when assigned
-                if (fieldType.equals(String.class))
+                if (fieldType.equals(String.class)) {
                     continue;
+                }
 
                 // No need to construct XMLGregorianCalendar, because an already constructed instance will be provided when assigned
-                if(XMLGregorianCalendar.class.isAssignableFrom(fieldType))
+                if (XMLGregorianCalendar.class.isAssignableFrom(fieldType)) {
                     continue;
+                }
 
                 // Types that wrap a collection provide access to the collection through
                 // an accessor hence negating the need to construct the collection.
-                if(Collection.class.isAssignableFrom(fieldType))
+                if (Collection.class.isAssignableFrom(fieldType)) {
                     continue;
+                }
 
                 // Construct a field of a complex type, and construct that types fields recursively
                 Object value = constructObjectByName(fieldType);

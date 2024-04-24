@@ -103,16 +103,16 @@ public final class IMFConstraints
         //From st2067-5:2013 section 5.1.3, only one essence track shall exist in the file package
         {
             MXFUID packageUID = filePackage.getPackageUID();
-            byte[] packageUID_first16Bytes_Constrained = {0x06, 0x0a, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x05, 0x01, 0x01, 0x0f, 0x20, 0x13, 0x00, 0x00, 0x00};
-            byte[] packageUID_first16Bytes = Arrays.copyOfRange(packageUID.getUID(), 0, packageUID_first16Bytes_Constrained.length);
-            boolean result = packageUID_first16Bytes[0] == packageUID_first16Bytes_Constrained[0];
-            for(int i=1; i < packageUID_first16Bytes_Constrained.length ; i++){
-                result &= packageUID_first16Bytes[i] == packageUID_first16Bytes_Constrained[i];
+            byte[] packageUIDFirst16BytesConstrained = {0x06, 0x0a, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x05, 0x01, 0x01, 0x0f, 0x20, 0x13, 0x00, 0x00, 0x00};
+            byte[] packageUIDFirst16Bytes = Arrays.copyOfRange(packageUID.getUID(), 0, packageUIDFirst16BytesConstrained.length);
+            boolean result = packageUIDFirst16Bytes[0] == packageUIDFirst16BytesConstrained[0];
+            for(int i=1; i < packageUIDFirst16BytesConstrained.length ; i++){
+                result &= packageUIDFirst16Bytes[i] == packageUIDFirst16BytesConstrained[i];
             }
             //Section 5.1.5 st2067-2:2016
             if(!result){
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, IMFConstraints.IMF_ESSENCE_EXCEPTION_PREFIX + String.format("PackageUID in FilePackage = %s, which does not obey the constraint that the first 16 bytes = %s in the IMFTrackFile represented by ID %s.",
-                        packageUID.toString(), Utilities.serializeBytesToHexString(packageUID_first16Bytes_Constrained), packageID.toString()));
+                        packageUID.toString(), Utilities.serializeBytesToHexString(packageUIDFirst16BytesConstrained), packageID.toString()));
             }
 
             int numEssenceTracks = 0;
@@ -175,7 +175,7 @@ public final class IMFConstraints
                             }
                             List<InterchangeObject.InterchangeObjectBO> subDescriptors = headerPartition.getSubDescriptors();
                             //Section 5.3.6.2 st2067-2:2016
-                            if (subDescriptors.size() == 0) {
+                            if (subDescriptors.isEmpty()) {
                                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, IMFConstraints.IMF_ESSENCE_EXCEPTION_PREFIX +
                                         String.format("WaveAudioEssenceDescriptor in the IMFTrackFile represented by ID %s indicates a channel count of %d, however there are %d AudioChannelLabelSubdescriptors, every audio channel should refer to exactly one AudioChannelLabelSubDescriptor and vice versa.", packageID.toString(), waveAudioEssenceDescriptor.getChannelCount(), subDescriptors.size()));
                             } else {
@@ -270,7 +270,7 @@ public final class IMFConstraints
                             }
 
                             //https://www.w3.org/TR/ttml-imsc1/ Section 6.1
-                            if (!timedTextDescriptor.getUCSEncoding().equalsIgnoreCase("UTF-8")) {
+                            if (!"UTF-8".equalsIgnoreCase(timedTextDescriptor.getUCSEncoding())) {
                                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CORE_CONSTRAINTS_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, IMFConstraints
                                         .IMF_ESSENCE_EXCEPTION_PREFIX + String.format("Invalid UCSEncoding(%s) in TimedTextDescriptor within trackFile represented by ID %s. Only UTF-8 is valid UCSEncoding. ",
                                         timedTextDescriptor
@@ -416,7 +416,7 @@ public final class IMFConstraints
      * This class wraps an OP1A-conformant MXF header partition object - wrapping can be done
      * only if the header partition object is also compliant with st2067-5:2013
      */
-    public static class HeaderPartitionIMF
+    public static final class HeaderPartitionIMF
     {
         private final MXFOperationalPattern1A.HeaderPartitionOP1A headerPartitionOP1A;
         private final IMFErrorLogger imfErrorLogger;

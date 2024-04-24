@@ -159,9 +159,9 @@ public final class CompositionImageEssenceDescriptorModel {
         this.paletteLayout = getFieldAsString(paletteLayoutUL);
         // end Items constrained in ST2065-5
 
-        UL MXFGCFrameWrappedACESPictures = UL.fromULAsURNStringToUL("urn:smpte:ul:060e2b34.0401010d.0d010301.02190100"); // MXF-GC Frame-wrapped ACES Pictures per 2065-5
+        UL mxfgcFrameWrappedACESPictures = UL.fromULAsURNStringToUL("urn:smpte:ul:060e2b34.0401010d.0d010301.02190100"); // MXF-GC Frame-wrapped ACES Pictures per 2065-5
         if(!this.colorModel.equals(ColorModel.Unknown)) {
-            if ((this.essenceContainerFormatUL != null) && getEssenceContainerFormatUL().equals(MXFGCFrameWrappedACESPictures) ) { // App #5
+            if ((this.essenceContainerFormatUL != null) && getEssenceContainerFormatUL().equals(mxfgcFrameWrappedACESPictures) ) { // App #5
                 if(colorModel.equals(ColorModel.RGB)) {
                     this.pixelBitDepth = null;
                     this.quantization = Quantization.Unknown;
@@ -181,7 +181,7 @@ public final class CompositionImageEssenceDescriptorModel {
                 this.quantization = parseQuantization(this.colorModel, this.pixelBitDepth);
 
                 Colorimetry color = Colorimetry.valueOf(this.colorPrimaries, this.transferCharacteristic);
-                if((colorModel.equals(ColorModel.YUV) && !color.getCodingEquation().equals(this.codingEquation))) {
+                if(colorModel.equals(ColorModel.YUV) && !color.getCodingEquation().equals(this.codingEquation)) {
                     color = Colorimetry.Unknown;
                 }
                 this.color = color;
@@ -413,7 +413,7 @@ public final class CompositionImageEssenceDescriptorModel {
                                     imageEssencedescriptorID.toString()));
                 } else {
                     List<DOMNodeObjectModel> rgbaComponents = j2cLayout.getDOMNodes(regXMLLibDictionary.getSymbolNameFromURN(rgbaComponentUL));
-                    if (rgbaComponents.size() == 0) {
+                    if (rgbaComponents.isEmpty()) {
                         imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                                 IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                                 String.format("EssenceDescriptor with ID %s is missing RGBAComponent in J2CLayout",
@@ -561,8 +561,8 @@ public final class CompositionImageEssenceDescriptorModel {
             List<DOMNodeObjectModel> containerConstraintsSubDescriptors = subDescriptors.getDOMNodes(regXMLLibDictionary.getSymbolNameFromURN(containerConstraintsSubDescriptorUL));
             if (!acesPictureSubDescriptors.isEmpty()) {
                 for (DOMNodeObjectModel domNodeObjectModel : acesPictureSubDescriptors) {
-                    String authoring_information = domNodeObjectModel.getFieldAsString(regXMLLibDictionary.getSymbolNameFromURN(acesAuthoringInformationUL));
-                    if ((authoring_information == null) || authoring_information.isEmpty()) {
+                    String authoringInformation = domNodeObjectModel.getFieldAsString(regXMLLibDictionary.getSymbolNameFromURN(acesAuthoringInformationUL));
+                    if ((authoringInformation == null) || authoringInformation.isEmpty()) {
                         imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                                 IMFErrorLogger.IMFErrors.ErrorLevels.WARNING,
                                 String.format("ACES Picture SubDescriptor (ID %s): Optional item ACES Authoring Information is not present or empty", domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString()));
@@ -585,11 +585,11 @@ public final class CompositionImageEssenceDescriptorModel {
             }
             if (!targetFrameSubDescriptors.isEmpty()) {
                 for (DOMNodeObjectModel domNodeObjectModel : targetFrameSubDescriptors) {
-                    String missing_items = "";
+                    String missingItems = "";
                     Set<UUID> targetFrameAncillaryResourceID = domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(targetFrameAncillaryResourceIDUL));
                     // Check for missing required items
                     if (targetFrameAncillaryResourceID.isEmpty()) {
-                        missing_items += "TargetFrameAncillaryResourceID, ";
+                        missingItems += "TargetFrameAncillaryResourceID, ";
                     } else {
                         //TODO Check it targetFrameAncillaryResourceID belongs to an existing GSP
                         imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
@@ -597,38 +597,38 @@ public final class CompositionImageEssenceDescriptorModel {
                                 String.format("INFO (can be ignored): Target FrameSubDescriptor (ID %s) references an Ancillary Resource (ID %s), but Ancillary Resources cannot be checked yet", 
                                         domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString(), targetFrameAncillaryResourceID.toString()));
                     }
-                    String media_type = domNodeObjectModel.getFieldAsString(regXMLLibDictionary.getSymbolNameFromURN(mediaTypeUL));
-                    if (media_type == null) {
-                        missing_items += "MediaType, ";
+                    String mediaType = domNodeObjectModel.getFieldAsString(regXMLLibDictionary.getSymbolNameFromURN(mediaTypeUL));
+                    if (mediaType == null) {
+                        missingItems += "MediaType, ";
                     }
                     Long index = domNodeObjectModel.getFieldAsLong(regXMLLibDictionary.getSymbolNameFromURN(targetFrameIndexUL));
                     if (index == null) {
-                        missing_items += "TargetFrameIndex, ";
+                        missingItems += "TargetFrameIndex, ";
                     }
                     UL transfer = domNodeObjectModel.getFieldAsUL(regXMLLibDictionary.getSymbolNameFromURN(targetFrameTransferCharacteristicUL));
                     if (transfer == null) {
-                        missing_items += "TargetFrameTransferCharacteristic, ";
+                        missingItems += "TargetFrameTransferCharacteristic, ";
                     }
                     UL color = domNodeObjectModel.getFieldAsUL(regXMLLibDictionary.getSymbolNameFromURN(targetFrameColorPrimariesUL));
                     if (color == null) {
-                        missing_items += "TargetFrameColorPrimaries, ";
+                        missingItems += "TargetFrameColorPrimaries, ";
                     }
-                    Integer max_ref = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameComponentMaxRefUL));
-                    if (max_ref == null) {
-                        missing_items += "TargetFrameComponentMaxRef, ";
+                    Integer maxRef = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameComponentMaxRefUL));
+                    if (maxRef == null) {
+                        missingItems += "TargetFrameComponentMaxRef, ";
                     }
-                    Integer min_ref = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameComponentMinRefUL));
-                    if (min_ref == null) {
-                        missing_items += "TargetFrameComponentMinRef, ";
+                    Integer minRef = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameComponentMinRefUL));
+                    if (minRef == null) {
+                        missingItems += "TargetFrameComponentMinRef, ";
                     }
-                    Integer stream_id = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameEssenceStreamIDUL));
-                    if (stream_id == null) {
-                        missing_items += "TargetFrameEssenceStreamID";
+                    Integer streamId = domNodeObjectModel.getFieldAsInteger(regXMLLibDictionary.getSymbolNameFromURN(targetFrameEssenceStreamIDUL));
+                    if (streamId == null) {
+                        missingItems += "TargetFrameEssenceStreamID";
                     }
-                    if (!missing_items.isEmpty()) {
+                    if (!missingItems.isEmpty()) {
                         imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                                 IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
-                                String.format("Target FrameSubDescriptor (ID %s): is missing required item(s): %s", domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString(), missing_items));
+                                String.format("Target FrameSubDescriptor (ID %s): is missing required item(s): %s", domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString(), missingItems));
                     }
 
                     // Check if acesPictureSubDescriptorInstanceID references an existing ACESPictureSubDescriptor Instance ID
@@ -650,11 +650,11 @@ public final class CompositionImageEssenceDescriptorModel {
                         
                     }
                     
-                    if ((max_ref != null) && (min_ref != null)) {
-                        if (max_ref <= min_ref) {
+                    if ((maxRef != null) && (minRef != null)) {
+                        if (maxRef <= minRef) {
                             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                                     IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
-                                    String.format("Target FrameSubDescriptor (ID %s): TargetFrameComponentMaxRef (%d) is less than or equal to TargetFrameComponentMaxRef (%d)", domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString(), max_ref, min_ref));
+                                    String.format("Target FrameSubDescriptor (ID %s): TargetFrameComponentMaxRef (%d) is less than or equal to TargetFrameComponentMaxRef (%d)", domNodeObjectModel.getFieldsAsUUID(regXMLLibDictionary.getSymbolNameFromURN(instanceID)).toString(), maxRef, minRef));
                         }
                     }
                 }
@@ -673,7 +673,6 @@ public final class CompositionImageEssenceDescriptorModel {
                     IMFErrorLogger.IMFErrors.ErrorLevels.WARNING,
                     String.format("INFO (can be ignored): EssenceDescriptor with ID %s: No ACESPictureSubDescriptor and no TargetFrameSubDescriptor found", imageEssencedescriptorID.toString()));
         }
-        return;
     }
 
     private void parseApp5VideoLineMap() {
@@ -697,7 +696,7 @@ public final class CompositionImageEssenceDescriptorModel {
                             imageEssencedescriptorID.toString()));
         } else {
             List<DOMNodeObjectModel> rgbaComponents = pixelLayout.getDOMNodes(regXMLLibDictionary.getSymbolNameFromURN(rgbaComponentUL));
-            if (rgbaComponents.size() == 0) {
+            if (rgbaComponents.isEmpty()) {
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.APPLICATION_COMPOSITION_ERROR,
                         IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                         String.format("EssenceDescriptor with ID %s is missing RGBAComponent in Pixel Layout",
@@ -741,12 +740,14 @@ public final class CompositionImageEssenceDescriptorModel {
                 }
                 boolean error = true;
                 if (componentList.size() >= 4) { // ABGR or BGR per 2067-50 plus Null
-                    if (componentList.get(0).toString().equals("Alpha")) { // ABGR per 2067-50
-                        if (componentList.get(1).toString().equals("Blue") || componentList.get(2).toString().equals("Green") || componentList.get(3).toString().equals("Red") )
+                    if ("Alpha".equals(componentList.get(0).toString())) { // ABGR per 2067-50
+                        if ("Blue".equals(componentList.get(1).toString()) || "Green".equals(componentList.get(2).toString()) || "Red".equals(componentList.get(3).toString())) {
                             error = false;
-                    } else if (componentList.get(0).toString().equals("Blue")) { // BGR per 2067-50
-                        if (componentList.get(1).toString().equals("Green") || componentList.get(2).toString().equals("Red"))
+                        }
+                    } else if ("Blue".equals(componentList.get(0).toString())) { // BGR per 2067-50
+                        if ("Green".equals(componentList.get(1).toString()) || "Red".equals(componentList.get(2).toString())) {
                             error = false;
+                        }
                     }
                 }
                 if (error) {

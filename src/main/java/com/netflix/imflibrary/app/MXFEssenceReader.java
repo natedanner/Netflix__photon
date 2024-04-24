@@ -101,9 +101,7 @@ public class MXFEssenceReader {
 
         File fileWithHeaderPartition = this.resourceByteRangeProvider.getByteRange(inclusiveRangeStart, inclusiveRangeEnd, this.workingDirectory);
         ByteProvider byteProvider = this.getByteProvider(fileWithHeaderPartition);
-        HeaderPartition headerPartition = new HeaderPartition(byteProvider, inclusiveRangeStart, inclusiveRangeEnd - inclusiveRangeStart + 1, this.imfErrorLogger);
-
-        return headerPartition;
+        return new HeaderPartition(byteProvider, inclusiveRangeStart, inclusiveRangeEnd - inclusiveRangeStart + 1, this.imfErrorLogger);
     }
 
     /**

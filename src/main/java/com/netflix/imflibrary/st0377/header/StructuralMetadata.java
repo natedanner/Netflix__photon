@@ -663,7 +663,7 @@ public final class StructuralMetadata
             }
         }
 
-        return ((key[5] == 0x53) || (key[5] == 0x13));
+        return (key[5] == 0x53) || (key[5] == 0x13);
 
     }
 
@@ -683,7 +683,7 @@ public final class StructuralMetadata
             }
         }
 
-        return ((key[5] == 0x53) || (key[5] == 0x13));
+        return (key[5] == 0x53) || (key[5] == 0x13);
 
     }
 
@@ -699,12 +699,7 @@ public final class StructuralMetadata
     }
 
     public static boolean isAudioWaveClipWrapped(int contentKind){
-        if(contentKind == 0x02){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return contentKind == 0x02;
     }
 
     /**

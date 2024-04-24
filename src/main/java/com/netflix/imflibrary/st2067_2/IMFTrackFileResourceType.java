@@ -48,7 +48,7 @@ public final class IMFTrackFileResourceType extends IMFBaseResourceType {
         super(id, editRate, intrinsicDuration, entryPoint, sourceDuration, repeatCount);
         this.trackFileId = trackFileId;
         this.sourceEncoding = sourceEncoding;
-        this.hash = (hash == null) ? null : Arrays.copyOf(hash, hash.length);
+        this.hash = hash == null ? null : Arrays.copyOf(hash, hash.length);
         this.hashAlgorithm = hashAlgorithm;
     }
 
@@ -74,7 +74,7 @@ public final class IMFTrackFileResourceType extends IMFBaseResourceType {
      */
     @Nullable
     public byte[] getHash(){
-        return (this.hash == null) ? null : Arrays.copyOf(this.hash, this.hash.length);
+        return this.hash == null ? null : Arrays.copyOf(this.hash, this.hash.length);
     }
 
     /**

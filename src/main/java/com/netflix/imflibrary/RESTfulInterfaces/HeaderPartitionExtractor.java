@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * A thin stateless class that assists in providing the byte offsets for the HeaderPartition within an IMF Track file
  */
-public class HeaderPartitionExtractor {
+public final class HeaderPartitionExtractor {
 
     /**
      * To prevent instantiation

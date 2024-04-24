@@ -17,14 +17,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.Arrays;
 
-import static com.netflix.imflibrary.st0377.header.GenericPictureEssenceDescriptor.FrameLayoutType;
-
 /**
  * A class that models Composition with Application 2Extended constraints from
  * 2067-21 specification
  */
 public class Application2E2021 extends AbstractApplicationComposition {
-    private static String APP_STRING = ApplicationCompositionType.APPLICATION_2E2021_COMPOSITION_TYPE.toString();
+    private static String appString = ApplicationCompositionType.APPLICATION_2E2021_COMPOSITION_TYPE.toString();
 
     static class CharacteristicsSet {
         private Integer maxWidth;
@@ -49,13 +47,13 @@ public class Application2E2021 extends AbstractApplicationComposition {
                 List<ColorModel> colorModels) {
             this.maxWidth = maxWidth;
             this.maxHeight = maxHeight;
-            this.colorSystems = new HashSet<Colorimetry>(colorSystems);
-            this.bitDepths = new HashSet<Integer>(bitDepths);
-            this.frameStructures = new HashSet<FrameLayoutType>(frameStructures);
-            this.frameRates = new HashSet<Fraction>(frameRates);
-            this.samplings = new HashSet<Sampling>(samplings);
-            this.quantizations = new HashSet<Quantization>(quantizations);
-            this.colorModels = new HashSet<ColorModel>(colorModels);
+            this.colorSystems = new HashSet<>(colorSystems);
+            this.bitDepths = new HashSet<>(bitDepths);
+            this.frameStructures = new HashSet<>(frameStructures);
+            this.frameRates = new HashSet<>(frameRates);
+            this.samplings = new HashSet<>(samplings);
+            this.quantizations = new HashSet<>(quantizations);
+            this.colorModels = new HashSet<>(colorModels);
         }
 
         public boolean has(Integer width,
@@ -274,17 +272,21 @@ public class Application2E2021 extends AbstractApplicationComposition {
         Integer width = imageDescriptor.getStoredWidth();
         Integer height = imageDescriptor.getStoredHeight();
 
-        if (JPEG2000.isAPP2HT(essenceCoding))
+        if (JPEG2000.isAPP2HT(essenceCoding)) {
             return true;
+        }
 
-        if (JPEG2000.isIMF4KProfile(essenceCoding))
+        if (JPEG2000.isIMF4KProfile(essenceCoding)) {
             return width > 2048 && width <= 4096 && height > 0 && height <= 3112;
+        }
 
-        if (JPEG2000.isIMF2KProfile(essenceCoding))
+        if (JPEG2000.isIMF2KProfile(essenceCoding)) {
             return width > 0 && width <= 2048 && height > 0 && height <= 1556;
+        }
 
-        if (JPEG2000.isBroadcastProfile(essenceCoding))
+        if (JPEG2000.isBroadcastProfile(essenceCoding)) {
             return width > 0 && width <= 3840 && height > 0 && height <= 2160;
+        }
 
         return false;
     }
@@ -315,8 +317,9 @@ public class Application2E2021 extends AbstractApplicationComposition {
                 imageDescriptor.getColorModel()
             );
 
-            if (isValid)
+            if (isValid) {
                 break;
+            }
         }
 
         if (!isValid) {
@@ -325,7 +328,7 @@ public class Application2E2021 extends AbstractApplicationComposition {
                 IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                 String.format(
                 "Invalid image characteristics per %s",
-                    APP_STRING
+                    appString
                 )
             );
         }

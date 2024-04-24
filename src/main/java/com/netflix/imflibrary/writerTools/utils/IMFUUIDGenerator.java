@@ -26,10 +26,10 @@ import java.util.UUID;
  * A class that provides the utility of maintaining a list of UUIDs currently in use and generating an UUID for use in an
  * IMF CPL document
  */
-public class IMFUUIDGenerator {
+public final class IMFUUIDGenerator {
 
     private final Set<UUID> assignedUUIDs = new HashSet<>();
-    private volatile static IMFUUIDGenerator uniqueInstance;
+    private static volatile IMFUUIDGenerator uniqueInstance;
 
     /**
      * This class is a singleton, hence prevent instantiation by having a private constructor

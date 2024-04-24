@@ -214,7 +214,7 @@ public final class RegXMLLibHelper {
         Definition definition = definitionResolver.getDefinition(AUID.fromURN(typeURN));
         if (definition instanceof EnumerationTypeDefinition) {
             EnumerationTypeDefinition enumerationTypeDefinition = EnumerationTypeDefinition.class.cast(definition);
-            intValue = enumerationTypeDefinition.getElements().stream().filter(e -> e.getName().equals(value)).map(e -> e.getValue()).findFirst().get();
+            intValue = enumerationTypeDefinition.getElements().stream().filter(e -> e.getName().equals(value)).map(EnumerationTypeDefinition.Element::getValue).findFirst().get();
         }
         return intValue;
     }

@@ -132,11 +132,11 @@ final class IMFCompositionPlaylistType {
     }});
 
     @Nonnull
-    private static final String getCompositionNamespaceURI(ResourceByteRangeProvider resourceByteRangeProvider, @Nonnull IMFErrorLogger imfErrorLogger) throws IOException {
+    private static String getCompositionNamespaceURI(ResourceByteRangeProvider resourceByteRangeProvider, @Nonnull IMFErrorLogger imfErrorLogger) throws IOException {
 
         String result = "";
 
-        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1);) {
+        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1)) {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setNamespaceAware(true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -194,7 +194,7 @@ final class IMFCompositionPlaylistType {
      * @throws IOException - any I/O related error is exposed through an IOException
      */
     public static boolean isCompositionPlaylist(ResourceByteRangeProvider resourceByteRangeProvider) throws IOException {
-        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1);) {
+        try (InputStream inputStream = resourceByteRangeProvider.getByteRangeAsStream(0, resourceByteRangeProvider.getResourceSize() - 1)) {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setNamespaceAware(true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -221,14 +221,14 @@ final class IMFCompositionPlaylistType {
         // Determine which version of the CPL namespace is being used
         String cplNamespace = getCompositionNamespaceURI(resourceByteRangeProvider, imfErrorLogger);
 
-        if (cplNamespace.equals("http://www.smpte-ra.org/schemas/2067-3/2013"))
+        if ("http://www.smpte-ra.org/schemas/2067-3/2013".equals(cplNamespace))
         {
             org.smpte_ra.schemas._2067_3._2013.CompositionPlaylistType jaxbCpl
                     = CompositionModel_st2067_2_2013.unmarshallCpl(resourceByteRangeProvider, imfErrorLogger);
 
             return CompositionModel_st2067_2_2013.getCompositionPlaylist(jaxbCpl, imfErrorLogger);
         }
-        else if (cplNamespace.equals("http://www.smpte-ra.org/schemas/2067-3/2016"))
+        else if ("http://www.smpte-ra.org/schemas/2067-3/2016".equals(cplNamespace))
         {
             org.smpte_ra.schemas._2067_3._2016.CompositionPlaylistType jaxbCpl
                     = CompositionModel_st2067_2_2016.unmarshallCpl(resourceByteRangeProvider, imfErrorLogger);
@@ -336,7 +336,7 @@ final class IMFCompositionPlaylistType {
      */
     @Deprecated
     public String getApplicationIdentification() {
-        if (this.applicationIdSet.size() > 0) {
+        if (!this.applicationIdSet.isEmpty()) {
             return this.applicationIdSet.iterator().next();
         } else {
             return "";

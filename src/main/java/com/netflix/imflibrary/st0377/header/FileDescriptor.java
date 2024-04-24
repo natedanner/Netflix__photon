@@ -30,7 +30,7 @@ import java.util.List;
  */
 public abstract class FileDescriptor extends GenericDescriptor {
 
-    public static abstract class FileDescriptorBO extends GenericDescriptorBO {
+    public abstract static class FileDescriptorBO extends GenericDescriptorBO {
 
         @MXFProperty(size = 0)
         protected final CompoundDataTypes.Rational sample_rate = null;

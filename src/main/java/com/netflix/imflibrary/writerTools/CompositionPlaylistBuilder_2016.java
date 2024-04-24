@@ -94,8 +94,8 @@ public class CompositionPlaylistBuilder_2016 {
     private final List<org.smpte_ra.schemas._2067_3._2016.SegmentType> segments = new ArrayList<>();
     private final List<IMFEssenceDescriptorBaseType> imfEssenceDescriptorBaseTypeList;
 
-    public final static String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
-    private final static String defaultContentKindScope = "http://www.smpte-ra.org/schemas/2067-3/XXXX#content-kind";
+    public static final String defaultHashAlgorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
+    private static final String defaultContentKindScope = "http://www.smpte-ra.org/schemas/2067-3/XXXX#content-kind";
     private final String cplFileName;
     private final Set<String> applicationIds;
     private final String coreConstraintsSchema;
@@ -315,7 +315,7 @@ public class CompositionPlaylistBuilder_2016 {
                 InputStream dcmlSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st0433_2008/dcmlTypes/dcmlTypes.xsd");
                 InputStream cplSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_3_2016/imf-cpl-20160411.xsd");
                 InputStream coreConstraintsSchemaAsAStream = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2016/imf-core-constraints-20160411.xsd");
-                InputStream xsd_core_constraints_2020 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2020/imf-core-constraints-2020.xsd");
+                InputStream xsdCoreConstraints2020 = contextClassLoader.getResourceAsStream("org/smpte_ra/schemas/st2067_2_2020/imf-core-constraints-2020.xsd");
                 OutputStream outputStream = new FileOutputStream(outputFile)
         )
         {
@@ -325,7 +325,7 @@ public class CompositionPlaylistBuilder_2016 {
             schemaSources[1] = new StreamSource(dcmlSchemaAsAStream);
             schemaSources[2] = new StreamSource(cplSchemaAsAStream);
             schemaSources[3] = new StreamSource(coreConstraintsSchemaAsAStream);
-            schemaSources[4] = new StreamSource(xsd_core_constraints_2020);
+            schemaSources[4] = new StreamSource(xsdCoreConstraints2020);
             Schema schema = schemaFactory.newSchema(schemaSources);
 
             JAXBContext jaxbContext = JAXBContext.newInstance(
@@ -348,7 +348,7 @@ public class CompositionPlaylistBuilder_2016 {
 
             if(this.imfErrorLogger.getNumberOfErrors() > numErrors){
                 List<ErrorLogger.ErrorObject> fatalErrors = imfErrorLogger.getErrors(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, numErrors, this.imfErrorLogger.getNumberOfErrors());
-                if(fatalErrors.size() > 0){
+                if(!fatalErrors.isEmpty()){
                     throw new IMFAuthoringException(String.format("Following FATAL errors were detected while building the PackingList document %s", fatalErrors.toString()));
                 }
             }
@@ -377,7 +377,7 @@ public class CompositionPlaylistBuilder_2016 {
     public org.smpte_ra.schemas._2067_3._2016.ContentKindType buildContentKindType(@Nonnull String value, String scope)  {
 
         org.smpte_ra.schemas._2067_3._2016.ContentKindType contentKindType = new org.smpte_ra.schemas._2067_3._2016.ContentKindType();
-        if(!scope.matches("^[a-zA-Z0-9._-]+") == true) {
+        if(!scope.matches("^[a-zA-Z0-9._-]+")) {
             this.imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CPL_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("The ContentKind scope %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)", scope)));
             contentKindType.setScope(scope);
         }
@@ -493,7 +493,7 @@ public class CompositionPlaylistBuilder_2016 {
      */
     public org.smpte_ra.schemas._2067_3._2016.ContentMaturityRatingType buildContentMaturityRatingType(String agency, String rating, org.smpte_ra.schemas._2067_3._2016.ContentMaturityRatingType.Audience audience) throws URISyntaxException {
         org.smpte_ra.schemas._2067_3._2016.ContentMaturityRatingType contentMaturityRatingType = new org.smpte_ra.schemas._2067_3._2016.ContentMaturityRatingType();
-        if(!agency.matches("^[a-zA-Z0-9._-]+") == true) {
+        if(!agency.matches("^[a-zA-Z0-9._-]+")) {
             //this.imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_CPL_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL, String.format("The ContentKind scope %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)", id)));
             throw new URISyntaxException("Invalid URI", "The ContentMaturityRating agency %s does not follow the syntax of a valid URI (a-z, A-Z, 0-9, ., _, -)");
         }
@@ -720,7 +720,7 @@ public class CompositionPlaylistBuilder_2016 {
      * A thin class that maintains a reference to a VirtualTrack Sequence object and the type of the Sequence.
      * Its state is opaque to classes outside this builder
      */
-    public static class SequenceTypeTuple{
+    public static final class SequenceTypeTuple {
         private final org.smpte_ra.schemas._2067_3._2016.SequenceType sequence;
         private final Composition.SequenceTypeEnum sequenceType;
 

@@ -121,7 +121,7 @@ public final class MXFPropertyPopulator
                             parameterizedType.getActualTypeArguments().length));
                 }
                 if ((parameterizedType.getActualTypeArguments()[0] == byte[].class) ||
-                        (parameterizedType.getActualTypeArguments()[0].toString().equals("byte[]")))
+                        ("byte[]".equals(parameterizedType.getActualTypeArguments()[0].toString())))
                 {
                     List<byte[]> cList = new ArrayList<>();
                     for (long i=0; i<cHeader.getNumberOfElements(); i++)
@@ -285,17 +285,17 @@ public final class MXFPropertyPopulator
     public static Long getUnsignedIntAsLong(byte[] byteArray, ByteOrder byteOrder)
     {
         long value;
-        long firstByte  = (0xFFL & ((long)byteArray[0]));
-        long secondByte = (0xFFL & ((long)byteArray[1]));
-        long thirdByte  = (0xFFL & ((long)byteArray[2]));
-        long fourthByte = (0xFFL & ((long)byteArray[3]));
+        long firstByte  = 0xFFL & ((long)byteArray[0]);
+        long secondByte = 0xFFL & ((long)byteArray[1]);
+        long thirdByte  = 0xFFL & ((long)byteArray[2]);
+        long fourthByte = 0xFFL & ((long)byteArray[3]);
         if (byteOrder == ByteOrder.LITTLE_ENDIAN)
         {
-            value = ((firstByte) | (secondByte << 8) | (thirdByte << 16) | (fourthByte << 24)) & 0xFFFFFFFFL;
+            value = (firstByte | (secondByte << 8) | (thirdByte << 16) | (fourthByte << 24)) & 0xFFFFFFFFL;
         }
         else
         {
-            value = ((firstByte << 24) | (secondByte << 16) | (thirdByte << 8) | (fourthByte )) & 0xFFFFFFFFL;
+            value = ((firstByte << 24) | (secondByte << 16) | (thirdByte << 8) | fourthByte) & 0xFFFFFFFFL;
         }
         return value;
     }
@@ -322,8 +322,8 @@ public final class MXFPropertyPopulator
     public static Integer getUnsignedShortAsInt(byte[] byteArray, ByteOrder byteOrder)
     {
         int value;
-        int firstByte  = (0xFF & ((int)byteArray[0]));
-        int secondByte = (0xFF & ((int)byteArray[1]));
+        int firstByte  = 0xFF & ((int)byteArray[0]);
+        int secondByte = 0xFF & ((int)byteArray[1]);
         if (byteOrder == ByteOrder.LITTLE_ENDIAN)
         {
             value = (firstByte | (secondByte << 8)) & 0xFFFF;
@@ -355,7 +355,7 @@ public final class MXFPropertyPopulator
      */
     public static Short getUnsignedByteAsShort(byte[] byteArray)
     {
-        return (short)(((int)byteArray[0]) & (0xFF));
+        return (short)(((int)byteArray[0]) & 0xFF);
     }
 
     /**
@@ -378,7 +378,7 @@ public final class MXFPropertyPopulator
     public static Boolean getBooleanFromByte(byte[] byteArray)
     {
         byte value = ByteBuffer.wrap(byteArray).order(KLVPacket.BYTE_ORDER).get();
-        return ((value != 0));
+        return value != 0;
     }
 
     /**

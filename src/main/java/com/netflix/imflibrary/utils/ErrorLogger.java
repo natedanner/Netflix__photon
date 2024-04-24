@@ -59,7 +59,6 @@ public interface ErrorLogger
             this.errorCode = errorCode;
             this.errorLevel = errorLevel;
             this.errorDescription = Utilities.appendPhotonVersionString(errorDescription);
-            ;
         }
 
         /**
@@ -120,9 +119,9 @@ public interface ErrorLogger
             }
             ErrorObject otherErrorObject = (ErrorObject) other;
 
-            return (this.errorCode == otherErrorObject.getErrorCode()
+            return this.errorCode == otherErrorObject.getErrorCode()
                     && this.errorLevel == otherErrorObject.getErrorLevel()
-                    && this.errorDescription.equals(otherErrorObject.getErrorDescription()));
+                    && this.errorDescription.equals(otherErrorObject.getErrorDescription());
         }
 
         /**

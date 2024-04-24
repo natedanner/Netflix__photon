@@ -25,7 +25,7 @@ import com.netflix.imflibrary.KLVPacket;
  */
 public abstract class GenericDataEssenceDescriptor extends FileDescriptor {
 
-    public static abstract class GenericDataEssenceDescriptorBO extends FileDescriptorBO {
+    public abstract static class GenericDataEssenceDescriptorBO extends FileDescriptorBO {
         /**
          * Constructor for a File descriptor ByteObject.
          *

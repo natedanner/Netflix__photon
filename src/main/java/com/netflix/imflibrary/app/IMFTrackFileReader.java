@@ -75,11 +75,11 @@ public final class IMFTrackFileReader
 {
     private final File workingDirectory;
     private final ResourceByteRangeProvider resourceByteRangeProvider;
-    private volatile RandomIndexPack randomIndexPack = null;
-    private volatile List<PartitionPack> partitionPacks = null;
-    private volatile List<PartitionPack> referencedPartitionPacks = null;
+    private volatile RandomIndexPack randomIndexPack;
+    private volatile List<PartitionPack> partitionPacks;
+    private volatile List<PartitionPack> referencedPartitionPacks;
     private volatile IMFConstraints.HeaderPartitionIMF headerPartition;
-    private volatile List<IndexTableSegment> indexTableSegments = null;
+    private volatile List<IndexTableSegment> indexTableSegments;
 
 
     private static final Logger logger = LoggerFactory.getLogger(IMFTrackFileReader.class);
@@ -311,7 +311,7 @@ public final class IMFTrackFileReader
         {
             setPartitionPacks(imfErrorLogger);
         }
-        ArrayList<String> partitionPackTypeString = new ArrayList<String>();
+        ArrayList<String> partitionPackTypeString = new ArrayList<>();
         for(PartitionPack partitionPack : this.partitionPacks){
             partitionPackTypeString.add(partitionPack.getPartitionPackType().getPartitionTypeString());
         }
@@ -509,7 +509,7 @@ public final class IMFTrackFileReader
             }
         }
 
-        if(supportedEssenceTypesFound.size() > 0) {
+        if(!supportedEssenceTypesFound.isEmpty()) {
             if (supportedEssenceTypesFound.size() > 1) {
                 imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_ESSENCE_COMPONENT_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.NON_FATAL,
                         String.format("IMFTrack file seems to have multiple supported essence component types %s only 1 is allowed per IMF Core Constraints, returning the first supported EssenceType", Utilities.serializeObjectCollectionToString(supportedEssenceTypesFound)));
@@ -583,7 +583,7 @@ public final class IMFTrackFileReader
      */
     BigInteger getEssenceEditRate(@Nonnull IMFErrorLogger imfErrorLogger) throws IOException {
         BigInteger result = BigInteger.valueOf(0);
-        if(!(this.getHeaderPartition(imfErrorLogger).getEssenceDescriptors().size() > 0)){
+        if(this.getHeaderPartition(imfErrorLogger).getEssenceDescriptors().size() <= 0){
             imfErrorLogger.addError(new ErrorLogger.ErrorObject(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_ESSENCE_COMPONENT_ERROR, IMFErrorLogger.IMFErrors.ErrorLevels.FATAL, String.format("No EssenceDescriptors were found in " +
                     "the MXF essence Header Partition")));
         }
@@ -603,7 +603,7 @@ public final class IMFTrackFileReader
      * @return editRate of the essence as a List of Long Integers
      */
     public List<Long> getEssenceEditRateAsList(@Nonnull IMFErrorLogger imfErrorLogger) throws IOException {
-        if(!(this.getHeaderPartition(imfErrorLogger).getEssenceDescriptors().size() > 0)){
+        if(this.getHeaderPartition(imfErrorLogger).getEssenceDescriptors().size() <= 0){
             throw new MXFException(String.format("No EssenceDescriptors were found in the MXF essence"));
         }
         FileDescriptor.FileDescriptorBO fileDescriptorBO = (FileDescriptor.FileDescriptorBO) this.getHeaderPartition(imfErrorLogger).getEssenceDescriptors().get(0);
@@ -629,8 +629,7 @@ public final class IMFTrackFileReader
         GenericPackage genericPackage = preface.getContentStorage().getEssenceContainerDataList().get(0).getLinkedPackage();
         SourcePackage filePackage = (SourcePackage)genericPackage;
 
-        UUID packageUUID = filePackage.getPackageMaterialNumberasUUID();
-        return packageUUID;
+        return filePackage.getPackageMaterialNumberasUUID();
     }
 
     /**
@@ -740,7 +739,7 @@ public final class IMFTrackFileReader
             }
         }
         List<ErrorLogger.ErrorObject> errors = imfErrorLogger.getErrors();
-        if(errors.size() > 0){
+        if(!errors.isEmpty()){
             long warningCount = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels
                     .WARNING)).count();
             logger.info(String.format("IMFTrackFile has %d errors and %d warnings",

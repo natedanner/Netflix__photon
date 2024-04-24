@@ -10,8 +10,9 @@ public class JPEG2000 {
     public static final UL HTJ2K_UL = UL.fromULAsURNStringToUL("urn:smpte:ul:060e2b34.0401010d.04010202.03010801");
 
     public static boolean isBroadcastProfile(UL pictureEssenceCoding) {
-        if (!pictureEssenceCoding.equalsWithMask(BROADCAST_PROFILE_NODE_UL, 0b1111111011111110))
+        if (!pictureEssenceCoding.equalsWithMask(BROADCAST_PROFILE_NODE_UL, 0b1111111011111110)) {
             return false;
+        }
 
         switch (pictureEssenceCoding.getByte(15)) {
             case 0x11: /* JPEG2000BroadcastContributionSingleTileProfileLevel1 */
@@ -28,8 +29,9 @@ public class JPEG2000 {
     }
 
     public static boolean isIMF2KProfile(UL pictureEssenceCoding) {
-        if (!pictureEssenceCoding.equalsWithMask(J2K_NODE_UL, 0b1111111011111100))
+        if (!pictureEssenceCoding.equalsWithMask(J2K_NODE_UL, 0b1111111011111100)) {
             return false;
+        }
 
         if (pictureEssenceCoding.getByte(14) == 0x02) {
             switch (pictureEssenceCoding.getByte(15)) {
@@ -65,8 +67,9 @@ public class JPEG2000 {
     }
 
     public static boolean isIMF4KProfile(UL pictureEssenceCoding) {
-        if (!pictureEssenceCoding.equalsWithMask(J2K_NODE_UL, 0b1111111011111100))
+        if (!pictureEssenceCoding.equalsWithMask(J2K_NODE_UL, 0b1111111011111100)) {
             return false;
+        }
 
         if (pictureEssenceCoding.getByte(14) == 0x03) {
             switch (pictureEssenceCoding.getByte(15)) {

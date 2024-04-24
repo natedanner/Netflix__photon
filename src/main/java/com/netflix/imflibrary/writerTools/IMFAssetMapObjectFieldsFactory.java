@@ -35,8 +35,8 @@ public final class IMFAssetMapObjectFieldsFactory {
      * @return A 2007 schema compliant AssetMapType object
      */
     public static org.smpte_ra.schemas._429_9._2007.am.AssetMapType constructAssetMapType_2007() {
-        org.smpte_ra.schemas._429_9._2007.am.AssetMapType amType_2007 = new org.smpte_ra.schemas._429_9._2007.am.AssetMapType();
-        IMFDocumentsObjectFieldsFactory.constructObjectFields(amType_2007);
-        return amType_2007;
+        org.smpte_ra.schemas._429_9._2007.am.AssetMapType amType2007 = new org.smpte_ra.schemas._429_9._2007.am.AssetMapType();
+        IMFDocumentsObjectFieldsFactory.constructObjectFields(amType2007);
+        return amType2007;
     }
 }

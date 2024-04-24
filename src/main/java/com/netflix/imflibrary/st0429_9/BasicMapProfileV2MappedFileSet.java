@@ -78,7 +78,7 @@ public final class BasicMapProfileV2MappedFileSet
         if ((files == null) || (files.length != 1))
         {
             String message = String.format("Found %d files with name %s in mapped file set rooted at %s, " +
-                    "exactly 1 is allowed", (files == null) ? 0 : files.length, BasicMapProfileV2MappedFileSet
+                    "exactly 1 is allowed", files == null ? 0 : files.length, BasicMapProfileV2MappedFileSet
                     .ASSETMAP_FILE_NAME, rootFile.getAbsolutePath());
             imfErrorLogger.addError(IMFErrorLogger.IMFErrors.ErrorCodes.IMF_AM_ERROR, IMFErrorLogger.IMFErrors
                             .ErrorLevels.FATAL,

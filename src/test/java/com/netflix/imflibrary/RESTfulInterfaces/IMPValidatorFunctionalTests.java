@@ -158,7 +158,7 @@ public class IMPValidatorFunctionalTests {
         List<ErrorLogger.ErrorObject> errors = IMPValidator.validateCPL(payloadRecord);
         List<ErrorLogger.ErrorObject> fatalErrors = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL))
                 .collect(Collectors.toList());
-        Assert.assertTrue(fatalErrors.size() == 0);
+        Assert.assertTrue(fatalErrors.isEmpty());
     }
 
     @Test
@@ -184,7 +184,7 @@ public class IMPValidatorFunctionalTests {
         List<ErrorLogger.ErrorObject> errors = IMPValidator.validateCPL(payloadRecord);
         List<ErrorLogger.ErrorObject> fatalErrors = errors.stream().filter(e -> e.getErrorLevel().equals(IMFErrorLogger.IMFErrors.ErrorLevels.FATAL))
                 .collect(Collectors.toList());
-        Assert.assertTrue(fatalErrors.size() == 0);
+        Assert.assertTrue(fatalErrors.isEmpty());
     }
 
     @Test
@@ -311,7 +311,7 @@ public class IMPValidatorFunctionalTests {
         File inputFile = TestHelper.findResourceByPath("TestIMP/Netflix_Sony_Plugfest_2015/CPL_BLACKL_202_HD_REC709_178_ENG_fe8cf2f4-1bcd-4145-8f72-6775af4038c4.xml");
         ResourceByteRangeProvider resourceByteRangeProvider = new FileByteRangeProvider(inputFile);
 
-        byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize()-1);
+        byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize() - 1);
         PayloadRecord cplPayloadRecord = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.CompositionPlaylist, 0L, resourceByteRangeProvider.getResourceSize());
 
         List<PayloadRecord> essencesHeaderPartition = new ArrayList<>();
@@ -323,9 +323,10 @@ public class IMPValidatorFunctionalTests {
 
         inputFile = TestHelper.findResourceByPath("TestIMP/Netflix_Sony_Plugfest_2015/Netflix_Plugfest_Oct2015_ENG20.mxf.hdr");
         resourceByteRangeProvider = new FileByteRangeProvider(inputFile);
-        bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize()-1);
+        bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize() - 1);
         PayloadRecord payloadRecord2 = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, resourceByteRangeProvider.getResourceSize());
-        List<PayloadRecord> payloadRecords = new ArrayList<PayloadRecord>() {{ add(payloadRecord2); }};
+        List<PayloadRecord> payloadRecords = new ArrayList<>();
+        payloadRecords.add(payloadRecord2);
         errors = IMPValidator.isVirtualTrackInCPLConformed(cplPayloadRecord, virtualTracks.get(2), payloadRecords);
         Assert.assertEquals(errors.size(), 4);
 
@@ -352,7 +353,7 @@ public class IMPValidatorFunctionalTests {
         File inputFile = TestHelper.findResourceByPath("TestIMP/NYCbCrLT_3840x2160x23.98x10min/CPL-de6d2644-e84c-432d-98d5-98d89271d082.xml");
         ResourceByteRangeProvider resourceByteRangeProvider = new FileByteRangeProvider(inputFile);
 
-        byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize()-1);
+        byte[] bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize() - 1);
         PayloadRecord cplPayloadRecord = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.CompositionPlaylist, 0L, resourceByteRangeProvider.getResourceSize());
 
         List<PayloadRecord> essencesHeaderPartition = new ArrayList<>();
@@ -364,9 +365,10 @@ public class IMPValidatorFunctionalTests {
 
         inputFile = TestHelper.findResourceByPath("TestIMP/NYCbCrLT_3840x2160x23.98x10min/NYCbCrLT_3840x2160x2398_full_full.mxf.hdr");
         resourceByteRangeProvider = new FileByteRangeProvider(inputFile);
-        bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize()-1);
+        bytes = resourceByteRangeProvider.getByteRangeAsBytes(0, resourceByteRangeProvider.getResourceSize() - 1);
         PayloadRecord payloadRecord2 = new PayloadRecord(bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, resourceByteRangeProvider.getResourceSize());
-        List<PayloadRecord> payloadRecords = new ArrayList<PayloadRecord>() {{ add(payloadRecord2); }};
+        List<PayloadRecord> payloadRecords = new ArrayList<>();
+        payloadRecords.add(payloadRecord2);
         errors = IMPValidator.isVirtualTrackInCPLConformed(cplPayloadRecord, virtualTracks.get(0), payloadRecords);
         Assert.assertEquals(errors.size(), 18);
 
@@ -452,7 +454,7 @@ public class IMPValidatorFunctionalTests {
                 cplFile = file;
             }
         }
-        Assert.assertTrue(cplFound == true);
+        Assert.assertTrue(cplFound);
 
         ResourceByteRangeProvider fileByteRangeProvider = new FileByteRangeProvider(cplFile);
         byte[] documentBytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);
@@ -462,12 +464,12 @@ public class IMPValidatorFunctionalTests {
 
         applicationComposition = ApplicationCompositionFactory.getApplicationComposition(fileByteRangeProvider, imfErrorLogger);
         fileByteRangeProvider = new FileByteRangeProvider(headerPartition1);
-        byte[] headerPartition1_bytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);
-        PayloadRecord headerPartition1PayloadRecord = new PayloadRecord(headerPartition1_bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, 0L);
+        byte[] headerPartition1Bytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);
+        PayloadRecord headerPartition1PayloadRecord = new PayloadRecord(headerPartition1Bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, 0L);
 
         fileByteRangeProvider = new FileByteRangeProvider(headerPartition2);
-        byte[] headerPartition2_bytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);
-        PayloadRecord headerPartition2PayloadRecord = new PayloadRecord(headerPartition2_bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, 0L);
+        byte[] headerPartition2Bytes = fileByteRangeProvider.getByteRangeAsBytes(0, fileByteRangeProvider.getResourceSize()-1);
+        PayloadRecord headerPartition2PayloadRecord = new PayloadRecord(headerPartition2Bytes, PayloadRecord.PayloadAssetType.EssencePartition, 0L, 0L);
         List<PayloadRecord> essencesHeaderPartitionPayloads = new ArrayList<>();
         essencesHeaderPartitionPayloads.add(headerPartition2PayloadRecord);
 
@@ -513,7 +515,7 @@ public class IMPValidatorFunctionalTests {
         errors.addAll(IMPValidator.validateCPL(cplPayloadRecord2));
 
 
-        if(errors.size() == 0) {
+        if(errors.isEmpty()) {
             errors.addAll(IMPValidator.isCPLMergeable(cplPayloadRecord1, new ArrayList<PayloadRecord>() {{
                 add(cplPayloadRecord2);
             }}));
@@ -541,7 +543,7 @@ public class IMPValidatorFunctionalTests {
         errors.addAll(IMPValidator.validateCPL(cplPayloadRecord2));
 
 
-        if(errors.size() == 0) {
+        if(errors.isEmpty()) {
             errors.addAll(IMPValidator.isCPLMergeable(cplPayloadRecord1, new ArrayList<PayloadRecord>() {{
                 add(cplPayloadRecord2);
             }}));
